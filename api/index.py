@@ -3,7 +3,7 @@ import random
 import string
 import sqlite3
 import json
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from pymongo import MongoClient
 
@@ -158,10 +158,18 @@ def ensure_db_initialized():
         init_db()
         db_initialized = True
 
-# Add this here
 @app.route("/")
 def home():
-    return "Voltverse Technologies API is running!"
+    return send_from_directory("../", "index.html")
+
+@app.route("/<path:filename>")
+def static_files(filename):
+    return send_from_directory("../", filename)
+
+
+@app.route("/images/<path:filename>")
+def images(filename):
+    return send_from_directory("../images", filename)
 
 @app.route('/api/products', methods=['GET'])
 def get_products():

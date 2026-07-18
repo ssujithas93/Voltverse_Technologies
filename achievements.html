@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Voltverse_Technologies </title>
+<meta name="description" content="Shop IoT sensors, ESP32 & Arduino boards, LoRa modules, robotics kits and embedded components from Voltverse_Technologies.">
+<title>Achievements — Voltverse_Technologies</title>
+<meta name="description" content="Milestones, awards, and recognitions earned by Voltverse_Technologies in robotics, IoT, and embedded engineering.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+=======
+<link rel="stylesheet" href="animations.css">
+</head>
+<body>
+
+<div class="grain"></div>
+<!-- ================= NAVBAR ================= -->
+<header id="site-header">
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.6" opacity="0.35"/>
+          <path d="M20 4 A16 16 0 0 1 36 20" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="20" cy="20" r="4.5" fill="currentColor"/>
+          <circle cx="20" cy="4" r="2.4" fill="currentColor"/>
+        </svg>
+      </span>
+      </span>
+      <span class="logo-text">VOLTVERSE
+<span>TECHNOLOGIES</span></span>
+    </a>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="achievements.html" class="active">Achievements</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="AUDAPS.html">AUDAPS</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="nav-cart" aria-label="View cart">
+      <i class="fas fa-cart-shopping"></i>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+
+    <button class="menu-btn" id="menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+</header>
+<!-- ================= CART DRAWER ================= -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3><i class="fas fa-cart-shopping"></i> Your Cart</h3>
+    <button class="cart-close" id="cart-close" aria-label="Close cart"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-empty" id="cart-empty">
+    <i class="fas fa-cart-shopping"></i>
+    <span>Your cart is empty.<br>Add something from the Shop.</span>
+  </div>
+  <div class="cart-drawer-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal</span>
+      <span id="cart-subtotal">₹0.00</span>
+    </div>
+    <button class="btn btn-primary cart-checkout" id="cart-checkout">Checkout</button>
+  </div>
+</aside>
+
+<!-- ================= PAGE HEADER ================= -->
+<section class="page-header achievements-page">
+  <div class="page-header-content">
+
+    <h1>Our Achievements</h1>
+    <p class="page-header-sub">A track record of awards, milestones, and recognitions earned
+      while building robotics, IoT, and embedded engineering solutions.</p>
+  </div>
+</section>
+
+<!-- ================= ACHIEVEMENTS GRID ================= -->
+<section class="achievements">
+  <div class="container">
+    <div class="achievement-grid">
+
+      <!-- Card 1 -->
+      <div class="achievement-card reveal" data-detail="ach-1-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="achievement-media">
+          <img src="images/img12.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 1" class="ach-slide">
+          <img src="images/img9.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 2" class="ach-slide">
+          <span class="achievement-year-badge">2025</span>
+        </div>
+        <div class="achievement-body">
+          <h3>Exhibited @ IMTEX FORMING 2026</h3>
+          <p>IMTEX FORMING 2026 is one of Asia’s leading international exhibitions focused on forming and manufacturing technologies. The exhibition is organised by the Indian Machine Tool Manufacturers’ Association (IMTMA) and brings together machine tool manufacturers, automation solution providers, technology innovators, and academic institutions from across the globe. 
+Voltverse_Technologies participated in this prestigious event under the i2 Academia Pavilion, providing students an opportunity to showcase industry-oriented innovation projects and gain direct exposure to real-world manufacturing environments.</p>
+          <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="achievement-card reveal" data-detail="ach-2-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="achievement-media">
+          <img src="images/img10.jpeg" alt="Feature Image 1" class="ach-slide-3">
+          <img src="images/img11.jpeg" alt="Feature Image 2" class="ach-slide-3">
+          <img src="images/img8.jpeg" alt="Feature Image 3" class="ach-slide-3">
+          <span class="achievement-year-badge">2026</span>
+        </div>
+        <div class="achievement-body">
+          <h3> MTS Techsurge 26'</h3>
+          <p>Participated in MTS Techsurge 2026, SRM KTR- A poster presentation event accompanied by the award ceremony for MTS NANDA AWARD. We received 1st prize for the poster presentation and a cash prize of Rs. 3000.</p>
+          <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="achievement-card reveal" data-detail="ach-3-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="achievement-media">
+          <img src="images/img12.jpeg" alt="Certified Image 1" class="ach-slide">
+          <img src="images/img13.jpeg" alt="Certified Image 2" class="ach-slide">
+          <span class="achievement-year-badge">2022–2024</span>
+        </div>
+        <div class="achievement-body">
+          <h3>Hack Fusin 2026</h3>
+          <p>Secured 3rd place at HackFusion, a 24-hour national hackathon hosted by Jeppiaar Institute of Technology, Chennai. Developed AUDAPS (Autonomous Underwater Data Acquisition and Profiling System), an innovative underwater monitoring solution designed to collect and analyze real-time environmental data for marine research, water quality assessment, and ecosystem monitoring. The project demonstrated end-to-end system design, embedded hardware integration, sensor data acquisition, and IoT-based monitoring.</p>
+          <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="achievement-card reveal" data-detail="ach-4-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="achievement-media">
+          <img src="images/img12.jpeg" alt="IoT Excellence Image 1" class="ach-slide">
+          <img src="images/img9.jpeg" alt="IoT Excellence Image 2" class="ach-slide">
+          <span class="achievement-year-badge">2023</span>
+        </div>
+        <div class="achievement-body">
+          <h3>IoT Excellence Award</h3>
+          <p>Awarded at the Smart City Summit for our environmental monitoring sensor network deployment.</p>
+          <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT CTA STRIP ================= -->
+<section class="cta-strip reveal">
+  <div class="container cta-strip-inner">
+    <h2>Let's Build the Future Together</h2>
+    <p>Whether you're a school, organization, researcher, or business, Voltverse_Technologies is ready to help transform your ideas into intelligent technological solutions.</p>
+    <a href="contact.html" class="btn btn-primary">Get in Touch <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-container">
+
+    <!-- Brand -->
+    <div class="footer-box footer-brand">
+      <span class="logo-text footer-logo">
+        VOLTVERSE
+      <span>TECHNOLOGIES</span>
+      </span>
+      <p>
+        Building the future through robotics, IoT and intelligent engineering.
+      </p>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-box newsletter">
+      <h3>Connect With Us</h3>
+
+      <form id="newsletter-form">
+
+        <div class="newsletter-field">
+          <label for="newsletter-email">Email *</label>
+          <input
+            type="email"
+            id="newsletter-email"
+            placeholder="you@example.com"
+            required
+          >
+        </div>
+
+        <label class="newsletter-check">
+          <input type="checkbox" required>
+          Yes, subscribe me to your newsletter.
+        </label>
+
+        <div class="newsletter-sub-msg">
+          You're subscribed — thank you!
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Submit
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-box footer-contact">
+      <h3>Get in Touch</h3>
+
+      <div class="footer-contact-line">
+        <i class="fas fa-phone"></i>
+        <span>+91 98765 43210</span>
+      </div>
+
+      <div class="footer-contact-line">
+        <i class="fas fa-envelope"></i>
+        <span>hello@Voltversetech.com</span>
+      </div>
+
+      <div class="footer-contact-line">
+        <i class="fas fa-location-dot"></i>
+        <span>Voltverse_Technologies, Chennai, Tamil Nadu, India</span>
+      </div>
+
+      <div class="footer-contact-line">
+        <i class="fas fa-clock"></i>
+        <span>Mon–Sat, 9:30 AM–6:30 PM (IST)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © 2026 Voltverse_Technologies. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- ================= DETAIL MODAL (shared shell) ================= -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-modal" role="dialog" aria-modal="true">
+    <button class="detail-close" id="detail-close" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <div id="detail-modal-body"><!-- content injected here on click --></div>
+  </div>
+</div>
+
+<!-- ================= DETAIL TEMPLATES (edit content here) ================= -->
+<template id="ach-1-detail">
+  <div class="detail-media">
+    <img src="images/img12.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 1" class="ach-slide">
+    <img src="images/img9.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 2" class="ach-slide">
+  </div>
+  <div class="detail-icon"><i class="fas fa-industry"></i></div>
+  <span class="detail-tag">2026 &middot; Exhibition</span>
+  <h2>Exhibited @ IMTEX FORMING 2026</h2>
+  <p>IMTEX FORMING 2026 is one of Asia’s leading international exhibitions focused on forming and manufacturing technologies. Organised by the Indian Machine Tool Manufacturers’ Association (IMTMA), it brings together machine tool manufacturers, automation solution providers, and technology innovators from across the globe. Voltverse_Technologies participated under the i2 Academia Pavilion, providing students a stellar opportunity to showcase industry-ready projects and interact directly with industrial manufacturing experts.</p>
+  <h4>Exhibition Highlights</h4>
+  <ul class="detail-list">
+    <li>Showcased engineering and hardware solutions to international manufacturing experts</li>
+    <li>Acquired direct feedback on industry-oriented innovation and student projects</li>
+    <li>Explored modern metal forming technologies and smart factory automation trends</li>
+  </ul>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>Exhibition</li><li>IMTEX</li><li>Industrial Automation</li>
+  </ul>
+</template>
+
+<template id="ach-2-detail">
+  <div class="detail-media">
+    <img src="images/img10.jpeg" alt="TechCrunch India feature Image 1" class="ach-slide-3">
+    <img src="images/img11.jpeg" alt="TechCrunch India feature Image 2" class="ach-slide-3">
+    <img src="images/img8.jpeg" alt="TechCrunch India feature Image 3" class="ach-slide-3">
+  </div>
+  <div class="detail-icon"><i class="fas fa-newspaper"></i></div>
+  <span class="detail-tag">2023 &middot; Media Feature</span>
+  <h2>Featured in TechCrunch India</h2>
+  <p>Our approach to building affordable, classroom-ready IoT and robotics kits was profiled
+     in a national technology publication, highlighting how Voltverse_Technologies bridges the gap
+     between commercial-grade components and school-level engineering education.</p>
+  <h4>Coverage highlights</h4>
+  <ul class="detail-list">
+    <li>Interview on accessible STEM education in Tamil Nadu</li>
+    <li>Feature on the St. Antony's School robotics program</li>
+    <li>Spotlight on locally sourced, low-cost sensor kits</li>
+  </ul>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>IoT Education</li><li>Media</li><li>STEM</li>
+  </ul>
+</template>
+
+<template id="ach-3-detail">
+  <div class="detail-media">
+    <img src="images/img12.jpeg" alt="Robotics certifications Image 1" class="ach-slide">
+    <img src="images/img9.jpeg" alt="Robotics certifications Image 2" class="ach-slide">
+  </div>
+  <div class="detail-icon"><i class="fas fa-graduation-cap"></i></div>
+  <span class="detail-tag">2022 – 2024 &middot; Education Milestone</span>
+  <h2>500+ Students Certified</h2>
+  <p>Through hands-on robotics and embedded systems training programs delivered at partner
+     schools, Voltverse_Technologies has certified over 500 students in practical engineering
+     fundamentals — from circuit assembly to basic programming and sensor integration.</p>
+  <h4>Program highlights</h4>
+  <ul class="detail-list">
+    <li>Project-based curriculum covering robotics and IoT basics</li>
+    <li>Certification issued on successful completion of a capstone project</li>
+    <li>Ongoing partnership with St. Antony's School since 2022</li>
+  </ul>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>Education</li><li>Robotics Training</li><li>Certification</li>
+  </ul>
+</template>
+
+<template id="ach-4-detail">
+  <div class="detail-media">
+    <img src="images/img12.jpeg" alt="Smart City IoT Summit Image 1" class="ach-slide">
+    <img src="images/img9.jpeg" alt="Smart City IoT Summit Image 2" class="ach-slide">
+  </div>
+  <div class="detail-icon"><i class="fas fa-city"></i></div>
+  <span class="detail-tag">2023 &middot; Award</span>
+  <h2>IoT Excellence Award — Smart City Summit</h2>
+  <p>Recognized at the Smart City Summit for deploying a low-power environmental monitoring
+     sensor network capable of tracking air quality and water parameters across a pilot zone,
+     supporting municipal sustainability initiatives.</p>
+  <h4>Project scope</h4>
+  <ul class="detail-list">
+    <li>Multi-node sensor network with centralized dashboard</li>
+    <li>Real-time air and water quality tracking</li>
+    <li>Solar-assisted power design for remote nodes</li>
+  </ul>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>IoT</li><li>Smart Cities</li><li>Sustainability</li>
+  </ul>
+</template>
+
+<template id="ach-5-detail">
+  <div class="detail-media"><img src="images/AUDAPS.png" alt="Underwater Sensor Array patent diagram"></div>
+  <div class="detail-icon"><i class="fas fa-lightbulb"></i></div>
+  <span class="detail-tag">2024 &middot; Intellectual Property</span>
+  <h2>Patent Filed: Underwater Sensor Array</h2>
+  <p>Voltverse_Technologies filed a provisional patent application for a modular underwater
+     sensor array design — the same core technology used in AUDAPS — enabling flexible
+     reconfiguration of sensor payloads depending on the monitoring task.</p>
+  <h4>Key innovation</h4>
+  <ul class="detail-list">
+    <li>Modular, swappable sensor housing design</li>
+    <li>Pressure-tolerant sealing suitable for shallow to mid-depth waters</li>
+    <li>Reduced manufacturing cost versus fixed-array alternatives</li>
+  </ul>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>Patent</li><li>Hardware Design</li><li>AUDAPS</li>
+  </ul>
+</template>
+
+<template id="ach-6-detail">
+  <div class="detail-media"><img src="images/WhatsApp Image 2026-07-13 at 1.22.25 PM (1).jpeg" alt="St. Antony's School partnership signing"></div>
+  <div class="detail-icon"><i class="fas fa-handshake"></i></div>
+  <span class="detail-tag">2022 &middot; Partnership</span>
+  <h2>Official Partnership with St. Antony's School</h2>
+  <p>Voltverse_Technologies formalized an ongoing partnership with St. Antony's School to deliver
+     structured, hands-on robotics education, providing consistent access to hardware kits,
+     curriculum, and mentorship for students.</p>
+  <h4>What the partnership includes</h4>
+  <ul class="detail-list">
+    <li>Weekly robotics lab sessions on school premises</li>
+    <li>Shared equipment library of dev boards and sensors</li>
+    <li>Joint showcase events for student projects</li>
+  </ul>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>Partnership</li><li>Education</li><li>Community</li>
+  </ul>
+</template>
+
+<script src="scripts.js"></script>
+</body>
+</html>

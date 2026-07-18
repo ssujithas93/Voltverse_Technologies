@@ -1,0 +1,66 @@
+/* =========================================================
+   TEXT REVEAL ANIMATIONS
+   (Split Text / Fade+Slide / Stagger / Mask Reveal / Scroll-Trigger)
+   No external library required — vanilla JS + CSS transitions.
+========================================================= */
+
+/* Outer wrapper: clips the inner unit so it looks "masked" as it slides up */
+.split-mask{
+  display:inline-block;
+  overflow:hidden;
+  vertical-align:top;
+}
+
+/* Every split unit (char / word / line) starts hidden below the mask */
+.split-unit{
+  display:inline-block;
+  will-change:transform, opacity;
+  transform:translateY(115%);
+  opacity:0;
+  transition:transform .8s var(--ease), opacity .6s var(--ease);
+}
+
+/* Preserve spacing for word splits */
+.split-word-space{ display:inline-block; width:0.28em; }
+
+/* Revealed state — added by JS via IntersectionObserver when scrolled into view */
+.split-text.in-view .split-unit{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* Line-level split (for manually marked lines, e.g. hero headline) */
+.split-line-mask{
+  display:block;
+  overflow:hidden;
+}
+.split-line{
+  display:block;
+  transform:translateY(105%);
+  opacity:0;
+  transition:transform .9s var(--ease), opacity .7s var(--ease);
+}
+.split-text.in-view .split-line{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* Simple fade + slide up (no splitting — for paragraphs, cards, etc.) */
+.fade-up{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
+}
+.fade-up.in-view{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+  .split-unit, .split-line, .fade-up{
+    transition:none !important;
+    transform:none !important;
+    opacity:1 !important;
+  }
+}

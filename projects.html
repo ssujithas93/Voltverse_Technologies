@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Voltverse_Technologies</title>
+<meta name="description" content="Explore Voltverse_Technologies' engineering projects — from AUDAPS underwater monitoring to smart campus IoT networks and educational robotics kits.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ================= NAVBAR ================= -->
+<header id="site-header">
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.6" opacity="0.35"/>
+          <path d="M20 4 A16 16 0 0 1 36 20" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="20" cy="20" r="4.5" fill="currentColor"/>
+          <circle cx="20" cy="4" r="2.4" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="logo-text">VOLTVERSE
+      <span>TECHNOLOGIES</span>
+      </span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="achievements.html">Achievements</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="AUDAPS.html">AUDAPS</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="nav-cart" aria-label="View cart">
+      <i class="fas fa-cart-shopping"></i>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+
+    <button class="menu-btn" id="menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+</header>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3><i class="fas fa-cart-shopping"></i> Your Cart</h3>
+    <button class="cart-close" id="cart-close" aria-label="Close cart"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-empty" id="cart-empty">
+    <i class="fas fa-cart-shopping"></i>
+    <span>Your cart is empty.<br>Add something from the Shop.</span>
+  </div>
+  <div class="cart-drawer-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal</span>
+      <span id="cart-subtotal">₹0.00</span>
+    </div>
+    <button class="btn btn-primary cart-checkout" id="cart-checkout">Checkout</button>
+  </div>
+</aside>
+
+<!-- ================= PAGE HEADER ================= -->
+<section class="page-header projects-page">
+  <div class="page-header-content">
+    <h1>Our Projects</h1>
+    <p class="page-header-sub">A closer look at the engineering work behind Voltverse_Technologies — from underwater monitoring systems to campus-wide IoT networks.</p>
+  </div>
+</section>
+
+<!-- ================= PROJECTS GRID ================= -->
+<section class="projects-section">
+  <div class="container">
+    <div class="project-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal" data-detail="proj-1-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="project-media">
+          <i class="fas fa-water"></i>
+          <span class="project-status">In Development</span>
+        </div>
+        <div class="project-body">
+          <h3>AUDAPS — Autonomous Underwater Data Acquisition System</h3>
+          <p>A modular underwater monitoring platform for collecting environmental data autonomously.</p>
+          <ul class="project-tags">
+            <li>Robotics</li><li>IoT</li><li>Environmental</li>
+          </ul>
+          <span class="project-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal" data-detail="proj-2-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="project-media">
+          <i class="fas fa-network-wired"></i>
+          <span class="project-status">Completed</span>
+        </div>
+        <div class="project-body">
+          <h3>Smart Campus IoT Network</h3>
+          <p>A connected sensor network monitoring occupancy, air quality, and energy use across a campus.</p>
+          <ul class="project-tags">
+            <li>IoT</li><li>Automation</li><li>Sensors</li>
+          </ul>
+          <span class="project-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card reveal" data-detail="proj-3-detail" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="project-media">
+          <i class="fas fa-robot"></i>
+          <span class="project-status">Completed</span>
+        </div>
+        <div class="project-body">
+          <h3>Educational Robotic Arm Kit</h3>
+          <p>A low-cost, programmable robotic arm kit designed for classroom robotics education.</p>
+          <ul class="project-tags">
+            <li>Robotics</li><li>Education</li><li>Embedded</li>
+          </ul>
+          <span class="project-more">View details <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT CTA STRIP ================= -->
+<section class="cta-strip reveal">
+  <div class="container cta-strip-inner">
+    <h2>Let's Build the Future Together</h2>
+    <p>Whether you're a school, organization, researcher, or business, Voltverse_Technologies
+       is ready to help transform your ideas into intelligent technological solutions.</p>
+    <a href="contact.html" class="btn btn-primary">Get in Touch <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container footer-container">
+
+    <div class="footer-box footer-brand">
+      <span class="logo-text footer-logo">
+        VOLTVERSE
+      <span>TECHNOLOGIES</span>
+      </span>
+      <p>
+        Building the future through robotics, IoT and intelligent engineering.
+      </p>
+    </div>
+
+    <div class="footer-box newsletter">
+      <h3>Connect With Us</h3>
+
+      <form id="newsletter-form">
+        <div class="newsletter-field">
+          <label for="newsletter-email">Email *</label>
+          <input type="email" id="newsletter-email" placeholder="you@example.com" required>
+        </div>
+
+        <label class="newsletter-check">
+          <input type="checkbox" required>
+          Yes, subscribe me to your newsletter.
+        </label>
+
+        <div class="newsletter-sub-msg">
+          You're subscribed — thank you!
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <div class="footer-box footer-contact">
+      <h3>Get in Touch</h3>
+      <div class="footer-contact-line"><i class="fas fa-phone"></i><span>+91 98765 43210</span></div>
+      <div class="footer-contact-line"><i class="fas fa-envelope"></i><span>hello@Voltversetech.com</span></div>
+      <div class="footer-contact-line"><i class="fas fa-location-dot"></i><span>Voltverse_Technologies, Chennai, Tamil Nadu, India</span></div>
+      <div class="footer-contact-line"><i class="fas fa-clock"></i><span>Mon–Sat, 9:30 AM–6:30 PM (IST)</span></div>
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © 2026 Voltverse_Technologies. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- ================= DETAIL MODAL (shared shell) ================= -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-modal" role="dialog" aria-modal="true">
+    <button class="detail-close" id="detail-close" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <div id="detail-modal-body"><!-- content injected here on click --></div>
+  </div>
+</div>
+
+<!-- ================= DETAIL TEMPLATES (edit content here) ================= -->
+
+<template id="proj-1-detail">
+  <div class="detail-media"><img src="images/AUDAPS 3.png" alt="AUDAPS Underwater Platform"></div>
+  <div class="detail-icon"><i class="fas fa-water"></i></div>
+  <span class="detail-tag">In Development</span>
+  <h2>AUDAPS — Autonomous Underwater Data Acquisition System</h2>
+  <p>AUDAPS is Voltverse_Technologies' flagship engineering project: a modular, low-cost
+     underwater platform that autonomously collects environmental data such as temperature,
+     turbidity, and dissolved oxygen levels, transmitting readings back for analysis without
+     requiring constant manual sampling.</p>
+  <h4>Technology stack</h4>
+  <ul class="detail-list">
+    <li>Embedded microcontroller with low-power sleep cycles</li>
+    <li>Modular waterproof sensor housing (patent-pending design)</li>
+    <li>Wireless data sync when surfaced, with onboard local storage</li>
+  </ul>
+  <h4>Impact</h4>
+  <p>Designed to make continuous water-quality monitoring affordable for research groups,
+     environmental agencies, and educational institutions that can't afford commercial-grade
+     underwater sensor platforms.</p>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>Robotics</li><li>IoT</li><li>Environmental Monitoring</li>
+  </ul>
+</template>
+
+<template id="proj-2-detail">
+  <div class="detail-media"><img src="images/IOT Trainer Kit.png" alt="Smart Campus IoT Network"></div>
+  <div class="detail-icon"><i class="fas fa-network-wired"></i></div>
+  <span class="detail-tag">Completed &middot; 2023</span>
+  <h2>Smart Campus IoT Network</h2>
+  <p>A distributed sensor network deployed across a campus environment to monitor room
+     occupancy, air quality, and energy consumption in real time, feeding into a centralized
+     dashboard for facilities management.</p>
+  <h4>Technology stack</h4>
+  <ul class="detail-list">
+    <li>Low-power Wi-Fi sensor nodes with CO2 and occupancy sensing</li>
+    <li>Central gateway aggregating data over MQTT</li>
+    <li>Web dashboard for live monitoring and historical trends</li>
+  </ul>
+  <h4>Impact</h4>
+  <p>Enabled the campus facilities team to identify underused spaces and optimize HVAC
+     scheduling, reducing unnecessary energy usage during low-occupancy periods.</p>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>IoT</li><li>Automation</li><li>Sensors</li>
+  </ul>
+</template>
+
+<template id="proj-3-detail">
+  <div class="detail-media"><img src="images/Robotic dog.png" alt="Robotic Dog Kit"></div>
+  <div class="detail-icon"><i class="fas fa-robot"></i></div>
+  <span class="detail-tag">Completed &middot; 2022</span>
+  <h2>Educational Robotic Arm Kit</h2>
+  <p>A low-cost, programmable robotic arm designed specifically for classroom use, allowing
+     students to learn the fundamentals of servo control, inverse kinematics, and basic
+     automation through hands-on assembly and coding exercises.</p>
+  <h4>Technology stack</h4>
+  <ul class="detail-list">
+    <li>4-axis servo-driven arm with 3D-printed housing</li>
+    <li>Beginner-friendly block-based and Python programming interface</li>
+    <li>Companion curriculum with guided project milestones</li>
+  </ul>
+  <h4>Impact</h4>
+  <p>Deployed as part of the robotics education program at St. Antony's School, giving
+     students a tangible, hands-on introduction to robotics concepts beyond simulations.</p>
+  <h4>Related</h4>
+  <ul class="detail-tags">
+    <li>Robotics</li><li>Education</li><li>Embedded Systems</li>
+  </ul>
+</template>
+
+<script src="scripts.js"></script>
+</body>
+</html>

@@ -26,8 +26,7 @@ def get_sqlite_conn():
 
 def get_mongo_db():
     client = MongoClient(MONGO_URI)
-    return client["Voltverse_Technologies
-_shop"]
+    return client["Voltverse_Technologies_shop"]
 
 def init_db():
     if USING_MONGODB:

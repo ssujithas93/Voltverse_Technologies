@@ -158,6 +158,11 @@ def ensure_db_initialized():
         init_db()
         db_initialized = True
 
+# Add this here
+@app.route("/")
+def home():
+    return "Voltverse Technologies API is running!"
+
 @app.route('/api/products', methods=['GET'])
 def get_products():
     try:

@@ -6,9 +6,15 @@ import json
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from pymongo import MongoClient
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
 CORS(app)
+
+cred = credentials.Certificate("firebase_key.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 MONGO_URI = os.environ.get("MONGO_URI")
 USING_MONGODB = MONGO_URI is not None

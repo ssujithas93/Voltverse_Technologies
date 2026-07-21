@@ -15,8 +15,6 @@
 
 </head>
 <body>
-
-=======
 <link rel="stylesheet" href="animations.css">
 </head>
 <body>
@@ -49,10 +47,15 @@
       <li><a href="AUDAPS.html">AUDAPS</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-    <button class="nav-cart" aria-label="View cart">
-      <i class="fas fa-cart-shopping"></i>
-      <span class="cart-badge" id="cart-badge">0</span>
-    </button>
+    <div class="nav-right-group">
+      <button class="nav-cart" aria-label="View cart">
+        <i class="fas fa-cart-shopping"></i>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </button>
+      <a href="login.html" class="nav-user" id="nav-user-btn" aria-label="User Account">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
 
     <button class="menu-btn" id="menu-btn" aria-label="Toggle navigation" aria-expanded="false">
       <i class="fas fa-bars"></i>
@@ -83,7 +86,6 @@
 <!-- ================= PAGE HEADER ================= -->
 <section class="page-header achievements-page">
   <div class="page-header-content">
-
     <h1>Our Achievements</h1>
     <p class="page-header-sub">A track record of awards, milestones, and recognitions earned
       while building robotics, IoT, and embedded engineering solutions.</p>
@@ -98,14 +100,17 @@
       <!-- Card 1 -->
       <div class="achievement-card reveal" data-detail="ach-1-detail" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="achievement-media">
-          <img src="images/img12.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 1" class="ach-slide">
-          <img src="images/img9.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 2" class="ach-slide">
+          <div class="card-slideshow">
+            <button class="prev" aria-label="Previous Image">&#10094;</button>
+            <img src="images/img12.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 1" class="slide active">
+            <img src="images/img9.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 2" class="slide">
+            <button class="next" aria-label="Next Image">&#10095;</button>
+          </div>
           <span class="achievement-year-badge">2025</span>
         </div>
         <div class="achievement-body">
           <h3>Exhibited @ IMTEX FORMING 2026</h3>
-          <p>IMTEX FORMING 2026 is one of Asia’s leading international exhibitions focused on forming and manufacturing technologies. The exhibition is organised by the Indian Machine Tool Manufacturers’ Association (IMTMA) and brings together machine tool manufacturers, automation solution providers, technology innovators, and academic institutions from across the globe. 
-Voltverse_Technologies participated in this prestigious event under the i2 Academia Pavilion, providing students an opportunity to showcase industry-oriented innovation projects and gain direct exposure to real-world manufacturing environments.</p>
+          <p>IMTEX FORMING 2026 is one of Asia’s leading international exhibitions focused on forming and manufacturing technologies. The exhibition is organised by the Indian Machine Tool Manufacturers’ Association (IMTMA) and</p>
           <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
         </div>
       </div>
@@ -113,9 +118,13 @@ Voltverse_Technologies participated in this prestigious event under the i2 Acade
       <!-- Card 2 -->
       <div class="achievement-card reveal" data-detail="ach-2-detail" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="achievement-media">
-          <img src="images/img10.jpeg" alt="Feature Image 1" class="ach-slide-3">
-          <img src="images/img11.jpeg" alt="Feature Image 2" class="ach-slide-3">
-          <img src="images/img8.jpeg" alt="Feature Image 3" class="ach-slide-3">
+          <div class="card-slideshow">
+            <button class="prev" aria-label="Previous Image">&#10094;</button>
+            <img src="images/img10.jpeg" alt="Feature Image 1" class="slide active">
+            <img src="images/img11.jpeg" alt="Feature Image 2" class="slide">
+            <img src="images/img8.jpeg" alt="Feature Image 3" class="slide">
+            <button class="next" aria-label="Next Image">&#10095;</button>
+          </div>
           <span class="achievement-year-badge">2026</span>
         </div>
         <div class="achievement-body">
@@ -128,27 +137,43 @@ Voltverse_Technologies participated in this prestigious event under the i2 Acade
       <!-- Card 3 -->
       <div class="achievement-card reveal" data-detail="ach-3-detail" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="achievement-media">
-          <img src="images/img12.jpeg" alt="Certified Image 1" class="ach-slide">
-          <img src="images/img13.jpeg" alt="Certified Image 2" class="ach-slide">
-          <span class="achievement-year-badge">2022–2024</span>
+          <div class="card-slideshow">
+            <button class="prev" aria-label="Previous Image">&#10094;</button>
+            <img src="images/img14.jpeg" alt="Certified Image 1" class="slide active">
+            <img src="images/img13.jpeg" alt="Certified Image 2" class="slide">
+            <button class="next" aria-label="Next Image">&#10095;</button>
+          </div>
+          <span class="achievement-year-badge">2026</span>
         </div>
         <div class="achievement-body">
           <h3>Hack Fusin 2026</h3>
-          <p>Secured 3rd place at HackFusion, a 24-hour national hackathon hosted by Jeppiaar Institute of Technology, Chennai. Developed AUDAPS (Autonomous Underwater Data Acquisition and Profiling System), an innovative underwater monitoring solution designed to collect and analyze real-time environmental data for marine research, water quality assessment, and ecosystem monitoring. The project demonstrated end-to-end system design, embedded hardware integration, sensor data acquisition, and IoT-based monitoring.</p>
+          <p>Secured 3rd place at HackFusion, a 24-hour national hackathon hosted by Jeppiaar Institute of Technology, Chennai. Developed AUDAPS (Autonomous Underwater Data Acquisition and Profiling System)</p>
           <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
         </div>
       </div>
-
       <!-- Card 4 -->
       <div class="achievement-card reveal" data-detail="ach-4-detail" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="achievement-media">
-          <img src="images/img12.jpeg" alt="IoT Excellence Image 1" class="ach-slide">
-          <img src="images/img9.jpeg" alt="IoT Excellence Image 2" class="ach-slide">
-          <span class="achievement-year-badge">2023</span>
+          <div class="card-slideshow">
+
+              <button class="prev" aria-label="Previous Image">&#10094;</button>
+
+              <img src="images/img15.jpeg"
+                  alt="St. Antony's School partnership signing"
+                  class="slide active">
+
+              <img src="images/img16.jpeg"
+                  alt="St. Antony's School partnership signing"
+                  class="slide">
+
+              <button class="next" aria-label="Next Image">&#10095;</button>
+
+          </div>
+          <span class="achievement-year-badge">2026</span>
         </div>
         <div class="achievement-body">
-          <h3>IoT Excellence Award</h3>
-          <p>Awarded at the Smart City Summit for our environmental monitoring sensor network deployment.</p>
+          <h3>Official Partnership with St. Antony's School</h3>
+          <p>Voltverse_Technologies formalized an ongoing partnership with St. Antony's School to deliver structured, hands-on robotics education</p>
           <span class="ach-more">View details <i class="fas fa-arrow-right"></i></span>
         </div>
       </div>
@@ -299,11 +324,11 @@ Voltverse_Technologies participated in this prestigious event under the i2 Acade
 
 <template id="ach-3-detail">
   <div class="detail-media">
-    <img src="images/img12.jpeg" alt="Robotics certifications Image 1" class="ach-slide">
-    <img src="images/img9.jpeg" alt="Robotics certifications Image 2" class="ach-slide">
+    <img src="images/img14.jpeg" alt="Robotics certifications Image 1" class="ach-slide">
+    <img src="images/img13.jpeg" alt="Robotics certifications Image 2" class="ach-slide">
   </div>
   <div class="detail-icon"><i class="fas fa-graduation-cap"></i></div>
-  <span class="detail-tag">2022 – 2024 &middot; Education Milestone</span>
+  <span class="detail-tag">2026 &middot; Education Milestone</span>
   <h2>500+ Students Certified</h2>
   <p>Through hands-on robotics and embedded systems training programs delivered at partner
      schools, Voltverse_Technologies has certified over 500 students in practical engineering
@@ -322,55 +347,12 @@ Voltverse_Technologies participated in this prestigious event under the i2 Acade
 
 <template id="ach-4-detail">
   <div class="detail-media">
-    <img src="images/img12.jpeg" alt="Smart City IoT Summit Image 1" class="ach-slide">
-    <img src="images/img9.jpeg" alt="Smart City IoT Summit Image 2" class="ach-slide">
+    <img src="images/img15.jpeg"  alt="St. Antony's School partnership signing" class="ach-slide">
+    <img src="images/img16.jpeg"  alt="St. Antony's School partnership signing" class="ach-slide">
   </div>
-  <div class="detail-icon"><i class="fas fa-city"></i></div>
-  <span class="detail-tag">2023 &middot; Award</span>
-  <h2>IoT Excellence Award — Smart City Summit</h2>
-  <p>Recognized at the Smart City Summit for deploying a low-power environmental monitoring
-     sensor network capable of tracking air quality and water parameters across a pilot zone,
-     supporting municipal sustainability initiatives.</p>
-  <h4>Project scope</h4>
-  <ul class="detail-list">
-    <li>Multi-node sensor network with centralized dashboard</li>
-    <li>Real-time air and water quality tracking</li>
-    <li>Solar-assisted power design for remote nodes</li>
-  </ul>
-  <h4>Related</h4>
-  <ul class="detail-tags">
-    <li>IoT</li><li>Smart Cities</li><li>Sustainability</li>
-  </ul>
-</template>
-
-<template id="ach-5-detail">
-  <div class="detail-media"><img src="images/AUDAPS.png" alt="Underwater Sensor Array patent diagram"></div>
-  <div class="detail-icon"><i class="fas fa-lightbulb"></i></div>
-  <span class="detail-tag">2024 &middot; Intellectual Property</span>
-  <h2>Patent Filed: Underwater Sensor Array</h2>
-  <p>Voltverse_Technologies filed a provisional patent application for a modular underwater
-     sensor array design — the same core technology used in AUDAPS — enabling flexible
-     reconfiguration of sensor payloads depending on the monitoring task.</p>
-  <h4>Key innovation</h4>
-  <ul class="detail-list">
-    <li>Modular, swappable sensor housing design</li>
-    <li>Pressure-tolerant sealing suitable for shallow to mid-depth waters</li>
-    <li>Reduced manufacturing cost versus fixed-array alternatives</li>
-  </ul>
-  <h4>Related</h4>
-  <ul class="detail-tags">
-    <li>Patent</li><li>Hardware Design</li><li>AUDAPS</li>
-  </ul>
-</template>
-
-<template id="ach-6-detail">
-  <div class="detail-media"><img src="images/WhatsApp Image 2026-07-13 at 1.22.25 PM (1).jpeg" alt="St. Antony's School partnership signing"></div>
-  <div class="detail-icon"><i class="fas fa-handshake"></i></div>
-  <span class="detail-tag">2022 &middot; Partnership</span>
+  <span class="detail-tag">2026 &middot; Partnership</span>
   <h2>Official Partnership with St. Antony's School</h2>
-  <p>Voltverse_Technologies formalized an ongoing partnership with St. Antony's School to deliver
-     structured, hands-on robotics education, providing consistent access to hardware kits,
-     curriculum, and mentorship for students.</p>
+  <p>Voltverse_Technologies formalized an ongoing partnership with St. Antony's School to deliver structured, hands-on robotics education, providing consistent access to hardware kits, curriculum, and mentorship for students.</p>
   <h4>What the partnership includes</h4>
   <ul class="detail-list">
     <li>Weekly robotics lab sessions on school premises</li>

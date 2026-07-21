@@ -384,48 +384,20 @@ cartOverlay?.addEventListener('click', closeCart);
 // Checkout handler with Python Flask integration
 const checkoutBtn = document.getElementById('cart-checkout');
 if (checkoutBtn) {
-  checkoutBtn.addEventListener('click', async () => {
+  checkoutBtn.addEventListener('click', () => {
     const cart = getCart();
     if (cart.length === 0) return;
 
-    const originalText = checkoutBtn.innerHTML;
-    checkoutBtn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
-    checkoutBtn.disabled = true;
-
-    try {
-      const res = await fetch(getApiUrl('/api/orders'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ items: cart })
-      });
-
-      if (!res.ok) throw new Error('Order submission failed');
-      const result = await res.json();
-
-      if (result.success) {
-        // Clear cart on success
-        saveCart([]);
-        renderCart();
-
-        // Close drawer and show success alert
-        closeCart();
-        alert(`Order Placed Successfully!\n\nOrder ID: ${result.order_id}\nTotal Price: ${formatPrice(result.total_price)}\n\nThank you for shopping with Voltverse_Technologies
- Technologies.`);
-      }
-    } catch (err) {
-      console.warn("Backend server offline, performing client-side mock checkout:", err);
-      // Fallback checkout for demo site if API server is offline
-      setTimeout(() => {
-        saveCart([]);
-        renderCart();
-        closeCart();
-        alert("Demo Checkout Success! Order saved locally on your device since the backend server is offline.");
-        checkoutBtn.innerHTML = originalText;
-        checkoutBtn.disabled = false;
-      }, 1500);
+    if (!currentUser) {
+      alert("Please sign in or create an account to proceed with checkout.");
+      closeCart();
+      sessionStorage.setItem('checkout_pending', 'true');
+      window.location.href = 'login.html';
+      return;
     }
+
+    closeCart();
+    openCheckoutModal();
   });
 }
 
@@ -569,3 +541,676 @@ detailOverlay?.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeDetail();
 });
+
+// ================= CARD SLIDESHOW (Card 4) =================
+const initCardSlideshows = () => {
+  const slideshows = document.querySelectorAll('.card-slideshow');
+  slideshows.forEach(slideshow => {
+    const slides = slideshow.querySelectorAll('.slide');
+    const prevBtn = slideshow.querySelector('.prev');
+    const nextBtn = slideshow.querySelector('.next');
+    
+    if (slides.length <= 1) return;
+    
+    let currentIndex = 0;
+    let timer = null;
+    
+    const showSlide = (index) => {
+      slides.forEach((slide, idx) => {
+        if (idx === index) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      currentIndex = index;
+    };
+    
+    const nextSlide = () => {
+      let nextIndex = (currentIndex + 1) % slides.length;
+      showSlide(nextIndex);
+    };
+    
+    const prevSlide = () => {
+      let prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+      showSlide(prevIndex);
+    };
+    
+    const startTimer = () => {
+      timer = setInterval(nextSlide, 3500); // 3.5 seconds
+    };
+    
+    const resetTimer = () => {
+      if (timer) {
+        clearInterval(timer);
+        startTimer();
+      }
+    };
+    
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent opening modal
+        prevSlide();
+        resetTimer();
+      });
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent opening modal
+        nextSlide();
+        resetTimer();
+      });
+    }
+    
+    // Start auto loop
+    startTimer();
+  });
+};
+
+// Initialize slideshows
+initCardSlideshows();
+
+// ================= USER AUTHENTICATION CLIENT LOGIC =================
+
+// Helper to show custom alerts inside login/signup pages
+const showAuthAlert = (msg, type = 'error') => {
+  const alertEl = document.getElementById('auth-alert');
+  if (!alertEl) return;
+  alertEl.className = `auth-alert ${type}`;
+  alertEl.innerHTML = (type === 'error' ? '<i class="fas fa-circle-exclamation"></i>' : '<i class="fas fa-circle-check"></i>') + `<span>${msg}</span>`;
+  alertEl.classList.remove('hidden');
+};
+
+const hideAuthAlert = () => {
+  const alertEl = document.getElementById('auth-alert');
+  if (alertEl) alertEl.classList.add('hidden');
+};
+
+// Check current user session status
+let currentUser = null;
+
+const checkUserSession = async () => {
+  try {
+    const res = await fetch('/api/auth/me');
+    if (!res.ok) {
+      if (window.location.pathname.includes('profile.html')) {
+        window.location.href = 'login.html';
+      }
+      return;
+    }
+    const data = await res.json();
+    if (data.success && data.user) {
+      currentUser = data.user;
+      updateNavbarForUser(data.user);
+      
+      // Auto-trigger checkout if pending marker exists
+      if (sessionStorage.getItem('checkout_pending') === 'true') {
+        sessionStorage.removeItem('checkout_pending');
+        setTimeout(() => {
+          openCheckoutModal();
+        }, 500);
+      }
+      
+      // Initialize profile page if we are on it
+      if (window.location.pathname.includes('profile.html')) {
+        initProfilePage(data.user);
+      }
+    } else {
+      if (window.location.pathname.includes('profile.html')) {
+        window.location.href = 'login.html';
+      }
+    }
+  } catch (err) {
+    console.warn("Could not retrieve user session:", err);
+    if (window.location.pathname.includes('profile.html')) {
+      // Fallback details render for demo testing if offline
+      initProfilePage({
+        name: "Demo Account",
+        email: "demo@voltversetech.com",
+        phone: "+91 98765 43210"
+      });
+    }
+  }
+};
+
+// Update navbar with user details and logout dropdown
+const updateNavbarForUser = (user) => {
+  const userBtn = document.getElementById('nav-user-btn');
+  if (!userBtn) return;
+  
+  // Wrap userBtn in a dropdown container
+  const parent = userBtn.parentElement;
+  if (!parent) return;
+  
+  // Create wrapper
+  const wrapper = document.createElement('div');
+  wrapper.className = 'nav-user-dropdown-wrapper';
+  
+  // Clone userBtn and configure it
+  const newUserBtn = userBtn.cloneNode(true);
+  newUserBtn.classList.add('active');
+  newUserBtn.setAttribute('href', 'profile.html');
+  newUserBtn.style.cursor = 'pointer';
+  
+  if (user.avatar) {
+    newUserBtn.innerHTML = `<img src="${user.avatar}" alt="${user.name}">`;
+  } else {
+    // Generate an initial icon or default icon
+    const initials = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+    newUserBtn.innerHTML = `<span style="font-weight: 700; font-family: var(--font-title);">${initials}</span>`;
+  }
+  
+  // Create dropdown menu
+  const dropdown = document.createElement('div');
+  dropdown.className = 'nav-user-dropdown';
+  dropdown.innerHTML = `
+    <div class="dropdown-user-info">
+      <span class="dropdown-user-name">${user.name}</span>
+      <span class="dropdown-user-email">${user.email}</span>
+    </div>
+    <a href="profile.html" class="dropdown-link"><i class="fas fa-user-gear"></i> View Profile</a>
+    <a href="shop.html" class="dropdown-link"><i class="fas fa-store"></i> Shop Products</a>
+    <button class="dropdown-btn" id="logout-btn"><i class="fas fa-right-from-bracket"></i> Sign Out</button>
+  `;
+  
+  wrapper.appendChild(newUserBtn);
+  wrapper.appendChild(dropdown);
+  
+  // Toggle dropdown on click/touch
+  newUserBtn.addEventListener('click', (e) => {
+    // Only prevent default redirection and toggle dropdown on mobile screens
+    if (window.innerWidth <= 768) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdown.classList.toggle('active-toggle');
+    }
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) {
+      dropdown.classList.remove('active-toggle');
+    }
+  });
+  
+  // Replace the old button with wrapper
+  parent.replaceChild(wrapper, userBtn);
+  
+  // Add logout listener
+  const logoutBtn = dropdown.querySelector('#logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        const res = await fetch('/api/auth/logout', { method: 'POST' });
+        if (res.ok) {
+          window.location.reload();
+        }
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    });
+  }
+};
+
+// Initialize profile page details
+const initProfilePage = (user) => {
+  if (!document.getElementById('profile-name')) return;
+  
+  document.getElementById('profile-name').innerText = user.name;
+  document.getElementById('profile-email').innerText = user.email;
+  document.getElementById('profile-phone').innerText = user.phone || 'Not provided';
+  
+  const initialsEl = document.getElementById('profile-initials');
+  if (initialsEl) {
+    if (user.avatar) {
+      initialsEl.parentElement.innerHTML = `<img src="${user.avatar}" alt="${user.name}">`;
+    } else {
+      initialsEl.innerText = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+    }
+  }
+  
+  // Bind profile logout button
+  const profileLogout = document.getElementById('profile-logout-btn');
+  if (profileLogout) {
+    profileLogout.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        const res = await fetch('/api/auth/logout', { method: 'POST' });
+        if (res.ok) {
+          window.location.href = 'index.html';
+        }
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    });
+  }
+  
+  // Fetch order history
+  loadOrderHistory();
+};
+
+const loadOrderHistory = async () => {
+  const listContainer = document.getElementById('orders-list-container');
+  if (!listContainer) return;
+  
+  try {
+    const res = await fetch('/api/orders');
+    if (!res.ok) throw new Error("Could not fetch orders");
+    const data = await res.json();
+    
+    if (data.success && data.orders && data.orders.length > 0) {
+      listContainer.innerHTML = '';
+      data.orders.forEach(order => {
+        const card = document.createElement('div');
+        card.className = 'order-card';
+        
+        let itemsHtml = '';
+        order.items.forEach(item => {
+          itemsHtml += `
+            <div class="order-item-row">
+              <span class="order-item-name">${item.name} <span class="order-item-qty">x${item.qty}</span></span>
+              <span class="order-item-price">${formatPrice(item.price * item.qty)}</span>
+            </div>
+          `;
+        });
+        
+        card.innerHTML = `
+          <div class="order-card-header">
+            <div class="order-meta-item">
+              <span class="order-meta-label">Order ID</span>
+              <span class="order-meta-val">${order.order_id}</span>
+            </div>
+            <div class="order-meta-item">
+              <span class="order-meta-label">Date Placed</span>
+              <span class="order-meta-val">${order.created_at || 'Recently'}</span>
+            </div>
+            <div class="order-meta-item">
+              <span class="order-meta-label">Total Amount</span>
+              <span class="order-meta-val price">${formatPrice(order.total_price)}</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="order-items-list">
+              ${itemsHtml}
+            </div>
+            <div class="order-shipping-details">
+              <div class="shipping-detail-block">
+                <span class="shipping-detail-label">Shipping Address</span>
+                <span class="shipping-detail-val">${order.address}</span>
+              </div>
+              <div class="shipping-detail-block">
+                <span class="shipping-detail-label">Contact / Payment</span>
+                <span class="shipping-detail-val">
+                  Phone: ${order.phone}<br>
+                  Method: ${order.payment_method}
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+    } else {
+      listContainer.innerHTML = `
+        <div class="empty-orders-state">
+          <i class="fas fa-bag-shopping"></i>
+          <p>You haven't placed any orders yet.</p>
+          <a href="shop.html" class="btn btn-primary">Start Shopping</a>
+        </div>
+      `;
+    }
+  } catch (err) {
+    console.warn("Could not load order history from server:", err);
+    listContainer.innerHTML = `
+      <div class="empty-orders-state">
+        <i class="fas fa-circle-exclamation" style="color: #f87171;"></i>
+        <p>Offline or unable to load your order history.</p>
+      </div>
+    `;
+  }
+};
+
+// Google Auth Callback Handler
+const handleGoogleAuthCallback = async (response) => {
+  try {
+    const res = await fetch('/api/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential: response.credential })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showAuthAlert("Successfully signed in with Google!", "success");
+      setTimeout(() => {
+        window.location.href = 'shop.html';
+      }, 1000);
+    } else {
+      showAuthAlert(data.error || "Google Authentication failed.");
+    }
+  } catch (err) {
+    showAuthAlert("Error connecting to server. Please try again.");
+    console.error("Google authentication error:", err);
+  }
+};
+
+// Initialize Google GSI Client
+const initGoogleAuth = async () => {
+  const loginGbtn = document.getElementById('google-signin-btn');
+  const signupGbtn = document.getElementById('google-signup-btn');
+  if (!loginGbtn && !signupGbtn) return;
+  
+  try {
+    const res = await fetch('/api/auth/google-config');
+    if (!res.ok) throw new Error("Config endpoint offline");
+    const data = await res.json();
+    
+    if (data.google_client_id) {
+      // GSI Library is loaded asynchronously
+      const checkGsiLoaded = setInterval(() => {
+        if (window.google && window.google.accounts) {
+          clearInterval(checkGsiLoaded);
+          window.google.accounts.id.initialize({
+            client_id: data.google_client_id,
+            callback: handleGoogleAuthCallback
+          });
+          
+          if (loginGbtn) {
+            window.google.accounts.id.renderButton(loginGbtn, {
+              theme: "outline",
+              size: "large",
+              width: loginGbtn.offsetWidth || 300
+            });
+          }
+          if (signupGbtn) {
+            window.google.accounts.id.renderButton(signupGbtn, {
+              theme: "outline",
+              size: "large",
+              width: signupGbtn.offsetWidth || 300
+            });
+          }
+        }
+      }, 100);
+    } else {
+      // Setup Mock Login Button for local development
+      console.warn("GOOGLE_CLIENT_ID not found, displaying developer mock buttons.");
+      const setupMockBtn = (btnEl) => {
+        if (!btnEl) return;
+        btnEl.innerHTML = `
+          <button class="btn btn-ghost btn-block" type="button" style="border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;">
+            <i class="fab fa-google" style="margin-right: 8px;"></i> Continue with Google (Mock)
+          </button>
+        `;
+        btnEl.querySelector('button').addEventListener('click', () => {
+          handleGoogleAuthCallback({
+            credential: "mock_token_success_demo@gmail.com_John_Doe_123456"
+          });
+        });
+      };
+      setupMockBtn(loginGbtn);
+      setupMockBtn(signupGbtn);
+    }
+  } catch (err) {
+    console.warn("Could not load Google Sign-In config, fallback to mock:", err);
+    const setupMockBtn = (btnEl) => {
+      if (!btnEl) return;
+      btnEl.innerHTML = `
+        <button class="btn btn-ghost btn-block" type="button" style="border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;">
+          <i class="fab fa-google" style="margin-right: 8px;"></i> Continue with Google (Mock)
+        </button>
+      `;
+      btnEl.querySelector('button').addEventListener('click', () => {
+        handleGoogleAuthCallback({
+          credential: "mock_token_success_demo@gmail.com_John_Doe_123456"
+        });
+      });
+    };
+    setupMockBtn(loginGbtn);
+    setupMockBtn(signupGbtn);
+  }
+};
+
+// Initialize Forms and Toggles on Auth Pages
+const initAuthPages = () => {
+  const loginForm = document.getElementById('login-form');
+  const signupForm = document.getElementById('signup-form');
+  
+  // Password Visibility Toggles
+  const bindToggle = (btnId, inputId) => {
+    const btn = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+    if (btn && input) {
+      btn.addEventListener('click', () => {
+        const isPwd = input.type === 'password';
+        input.type = isPwd ? 'text' : 'password';
+        btn.innerHTML = isPwd ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+      });
+    }
+  };
+  
+  bindToggle('pwd-toggle', 'login-password');
+  bindToggle('pwd-toggle-1', 'signup-password');
+  bindToggle('pwd-toggle-2', 'signup-confirm');
+  
+  // Login Form Submission
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAuthAlert();
+      
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const submitBtn = document.getElementById('login-submit-btn');
+      
+      const origText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Signing In... <i class="fas fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
+      
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          showAuthAlert("Sign in successful! Redirecting...", "success");
+          setTimeout(() => {
+            window.location.href = 'shop.html';
+          }, 1200);
+        } else {
+          showAuthAlert(data.error || "Invalid credentials.");
+          submitBtn.innerHTML = origText;
+          submitBtn.disabled = false;
+        }
+      } catch (err) {
+        showAuthAlert("Error connecting to server. Please check your connection.");
+        submitBtn.innerHTML = origText;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+  
+  // Signup Form Submission
+  if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAuthAlert();
+      
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const phone = document.getElementById('signup-phone').value;
+      const password = document.getElementById('signup-password').value;
+      const confirm = document.getElementById('signup-confirm').value;
+      const submitBtn = document.getElementById('signup-submit-btn');
+      
+      if (password !== confirm) {
+        showAuthAlert("Passwords do not match.");
+        return;
+      }
+      
+      const origText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Creating Account... <i class="fas fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
+      
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, password })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          showAuthAlert("Registration successful! Check email for confirmation. Redirecting...", "success");
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 2400);
+        } else {
+          showAuthAlert(data.error || "Registration failed.");
+          submitBtn.innerHTML = origText;
+          submitBtn.disabled = false;
+        }
+      } catch (err) {
+        showAuthAlert("Error connecting to server. Please try again.");
+        submitBtn.innerHTML = origText;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+};
+
+// ================= CHECKOUT DETAILS MODAL DYNAMIC INJECTION & LOGIC =================
+
+const injectCheckoutModal = () => {
+  if (document.getElementById('checkout-overlay')) return;
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'checkout-overlay';
+  overlay.className = 'checkout-overlay';
+  overlay.innerHTML = `
+    <div class="checkout-modal">
+      <button class="checkout-close" id="checkout-close-btn" aria-label="Close checkout"><i class="fas fa-xmark"></i></button>
+      <div class="checkout-header">
+        <h2>Checkout Details</h2>
+        <p>Please provide your shipping details and payment method</p>
+      </div>
+      <div class="checkout-summary">
+        <span class="checkout-summary-label">Total Amount:</span>
+        <span class="checkout-summary-price" id="checkout-total-price">Rs. 0.00</span>
+      </div>
+      <form id="checkout-form" class="checkout-form">
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="checkout-address" style="display: block; margin-bottom: 8px; font-size: 13.5px; font-weight: 600; color: rgba(238,244,242,0.85);">Shipping Address</label>
+          <textarea id="checkout-address" placeholder="Enter your full street address, landmark, city, state and pincode" required></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="checkout-phone" style="display: block; margin-bottom: 8px; font-size: 13.5px; font-weight: 600; color: rgba(238,244,242,0.85);">Contact Phone Number</label>
+          <input type="tel" id="checkout-phone" placeholder="+91 98765 43210" required style="width: 100%; padding: 13px 18px; border-radius: 8px; background: rgba(7, 13, 20, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); color: #ffffff; font-size: 14.5px; font-family: var(--font-body);">
+        </div>
+        <div class="form-group" style="margin-bottom: 25px;">
+          <label for="checkout-payment" style="display: block; margin-bottom: 8px; font-size: 13.5px; font-weight: 600; color: rgba(238,244,242,0.85);">Payment Method</label>
+          <select id="checkout-payment" required>
+            <option value="" disabled selected>Select a payment method</option>
+            <option value="UPI">UPI (Google Pay, PhonePe, Paytm)</option>
+            <option value="Card">Credit / Debit Card</option>
+            <option value="NetBanking">Net Banking</option>
+            <option value="COD">Cash on Delivery (COD)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit" id="checkout-submit-btn" style="font-family: var(--font-title); font-weight: 700; height: 50px; font-size: 15px;">Place Order</button>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  
+  // Close actions
+  overlay.querySelector('#checkout-close-btn').addEventListener('click', closeCheckoutModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeCheckoutModal();
+  });
+  
+  // Submit action
+  overlay.querySelector('#checkout-form').addEventListener('submit', handleCheckoutSubmit);
+};
+
+const openCheckoutModal = () => {
+  injectCheckoutModal();
+  const cart = getCart();
+  if (cart.length === 0) return;
+  
+  const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  document.getElementById('checkout-total-price').innerText = formatPrice(total);
+  
+  // Prefill phone from currentUser
+  const phoneInput = document.getElementById('checkout-phone');
+  if (phoneInput && currentUser && currentUser.phone) {
+    phoneInput.value = currentUser.phone;
+  }
+  
+  document.getElementById('checkout-overlay').classList.add('show');
+};
+
+const closeCheckoutModal = () => {
+  const overlay = document.getElementById('checkout-overlay');
+  if (overlay) overlay.classList.remove('show');
+};
+
+const handleCheckoutSubmit = async (e) => {
+  e.preventDefault();
+  const cart = getCart();
+  if (cart.length === 0) return;
+  
+  const address = document.getElementById('checkout-address').value;
+  const phone = document.getElementById('checkout-phone').value;
+  const payment_method = document.getElementById('checkout-payment').value;
+  
+  const submitBtn = document.getElementById('checkout-submit-btn');
+  const origText = submitBtn.innerHTML;
+  submitBtn.innerHTML = 'Placing Order... <i class="fas fa-spinner fa-spin"></i>';
+  submitBtn.disabled = true;
+  
+  try {
+    const res = await fetch(getApiUrl('/api/orders'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: cart,
+        address,
+        phone,
+        payment_method
+      })
+    });
+    
+    if (!res.ok) throw new Error('Order submission failed');
+    const result = await res.json();
+    
+    if (result.success) {
+      saveCart([]);
+      renderCart();
+      closeCheckoutModal();
+      alert(`Order Placed Successfully!\n\nOrder ID: ${result.order_id}\nTotal Price: ${formatPrice(result.total_price)}\nPayment Method: ${payment_method}\n\nThank you for shopping with Voltverse Technologies.`);
+    } else {
+      alert(result.error || "Order placement failed.");
+      submitBtn.innerHTML = origText;
+      submitBtn.disabled = false;
+    }
+  } catch (err) {
+    console.warn("Backend server offline, executing mock order placement:", err);
+    setTimeout(() => {
+      saveCart([]);
+      renderCart();
+      closeCheckoutModal();
+      alert(`Demo Checkout Success!\n\nShipping Address: ${address}\nPhone: ${phone}\nPayment: ${payment_method}\n\nOrder processed locally since server is offline.`);
+      submitBtn.innerHTML = origText;
+      submitBtn.disabled = false;
+    }, 1500);
+  }
+};
+
+// Initialize session and auth events
+checkUserSession();
+initGoogleAuth();
+initAuthPages();

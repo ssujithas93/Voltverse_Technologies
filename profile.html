@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile — Voltverse Technologies</title>
+<meta name="description" content="Manage your Voltverse Technologies account, view order history, and edit shipping preferences.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page-body">
+
+<!-- ================= NAVBAR ================= -->
+<header id="site-header">
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.6" opacity="0.35"/>
+          <path d="M20 4 A16 16 0 0 1 36 20" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="20" cy="20" r="4.5" fill="currentColor"/>
+          <circle cx="20" cy="4" r="2.4" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="logo-text">VOLTVERSE<span>TECHNOLOGIES</span></span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="achievements.html">Achievements</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="AUDAPS.html">AUDAPS</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right-group">
+      <button class="nav-cart" aria-label="View cart">
+        <i class="fas fa-cart-shopping"></i>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </button>
+      <a href="login.html" class="nav-user" id="nav-user-btn" aria-label="User Account">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+
+    <button class="menu-btn" id="menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+</header>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3><i class="fas fa-cart-shopping"></i> Your Cart</h3>
+    <button class="cart-close" id="cart-close" aria-label="Close cart"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-empty" id="cart-empty">
+    <i class="fas fa-cart-shopping"></i>
+    <span>Your cart is empty.<br>Add something from the Shop.</span>
+  </div>
+  <div class="cart-drawer-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal:</span>
+      <span class="cart-subtotal-val" id="cart-subtotal">Rs. 0.00</span>
+    </div>
+    <button class="btn btn-primary btn-block" id="cart-checkout">Checkout</button>
+  </div>
+</aside>
+
+<!-- ================= PROFILE VIEW ================= -->
+<main class="profile-section container" style="margin-top: 130px; margin-bottom: 80px;">
+  <div class="profile-grid">
+    <!-- User Information Sidebar -->
+    <div class="profile-sidebar">
+      <div class="profile-user-card">
+        <div class="profile-avatar-wrapper" id="profile-avatar-container">
+          <div class="profile-avatar-placeholder" id="profile-initials">U</div>
+        </div>
+        <h2 id="profile-name">Loading...</h2>
+        <p class="profile-badge"><i class="fas fa-shield-halved"></i> Verified Customer</p>
+        
+        <div class="profile-details-list">
+          <div class="profile-detail-item">
+            <span class="detail-label"><i class="fas fa-envelope"></i> Email</span>
+            <span class="detail-val" id="profile-email">loading...</span>
+          </div>
+          <div class="profile-detail-item">
+            <span class="detail-label"><i class="fas fa-phone"></i> Phone</span>
+            <span class="detail-val" id="profile-phone">loading...</span>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-block" id="profile-logout-btn" style="margin-top: 25px; border-color: rgba(239, 68, 68, 0.3); color: #f87171;">
+          <i class="fas fa-right-from-bracket" style="margin-right: 8px;"></i> Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Order History and Detail Area -->
+    <div class="profile-main-content">
+      <div class="profile-orders-section">
+        <h2 class="section-title"><i class="fas fa-bag-shopping" style="margin-right: 10px; color: var(--blue);"></i> Order History</h2>
+        
+        <div class="orders-list" id="orders-list-container">
+          <!-- Dynamic Order Cards Loaded Here -->
+          <div class="orders-loading">
+            <i class="fas fa-circle-notch fa-spin"></i> Loading order details...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-container">
+    <div class="footer-box footer-brand">
+      <span class="logo-text footer-logo">VOLTVERSE<span>TECHNOLOGIES</span></span>
+      <p>Building the future through robotics, IoT and intelligent engineering.</p>
+    </div>
+    
+    <div class="footer-box footer-contact">
+      <h3>Get in Touch</h3>
+      <div class="footer-contact-line"><i class="fas fa-phone"></i><span>+91 98765 43210</span></div>
+      <div class="footer-contact-line"><i class="fas fa-envelope"></i><span>hello@Voltversetech.com</span></div>
+      <div class="footer-contact-line"><i class="fas fa-location-dot"></i><span>Voltverse Technologies, Chennai, Tamil Nadu, India</span></div>
+    </div>
+  </div>
+  <div class="copyright">
+    &copy; 2026 Voltverse Technologies. All rights reserved.
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>

@@ -148,7 +148,7 @@ def init_db():
                 seed_products = [
                     {
                         "name": "WORK STATION (For Kids)",
-                        "price": 1000.00,
+                        "price": 2500.00,
                         "icon": "fas fa-briefcase",
                         "tag": "Electronics Kit",
                         "description": "A fun and educational workshop organizer specifically designed for kids. It helps children learn the basics of assembly, organization, and safety when working on small electronics and robotics projects.",
@@ -157,7 +157,7 @@ def init_db():
                     },
                     {
                         "name": "IOT Trainer Kit",
-                        "price": 5299.00,
+                        "price": 6000.00,
                         "icon": "fas fa-microchip",
                         "tag": "IoT Development",
                         "description": "A comprehensive educational trainer kit for learning IoT concepts and cloud integrations. Equipped with development boards and a wide array of sensors.",
@@ -166,7 +166,7 @@ def init_db():
                     },
                     {
                         "name": "AUDAPS — Underwater Platform",
-                        "price": 12000.00,
+                        "price": 16000.00,
                         "icon": "fas fa-water",
                         "tag": "Marine Technology",
                         "description": "Our premier autonomous data collection platform designed for sub-surface monitoring. Configurable with custom scientific sensor payloads.",
@@ -175,7 +175,7 @@ def init_db():
                     },
                     {
                         "name": "Robotic Dog Kit",
-                        "price": 1000.00,
+                        "price": 3500.00,
                         "icon": "fas fa-dog",
                         "tag": "Robotics Kit",
                         "description": "An interactive, quadruped robot kit that teaches servo control, motor alignment, and basic walk cycle coding.",
@@ -184,6 +184,12 @@ def init_db():
                     }
                 ]
                 products_col.insert_many(seed_products)
+            else:
+                # Force update prices for existing products in MongoDB
+                products_col.update_one({"name": "WORK STATION (For Kids)"}, {"$set": {"price": 2500.00}})
+                products_col.update_one({"name": "IOT Trainer Kit"}, {"$set": {"price": 6000.00}})
+                products_col.update_one({"name": "AUDAPS — Underwater Platform"}, {"$set": {"price": 16000.00}})
+                products_col.update_one({"name": "Robotic Dog Kit"}, {"$set": {"price": 3500.00}})
         except Exception as e:
             print("MongoDB initialization error:", e)
     else:
@@ -254,7 +260,7 @@ def init_db():
             seed_products = [
                 (
                     "WORK STATION (For Kids)",
-                    1000.00,
+                    2500.00,
                     "fas fa-briefcase",
                     "Electronics Kit",
                     "A fun and educational workshop organizer specifically designed for kids. It helps children learn the basics of assembly, organization, and safety when working on small electronics and robotics projects.",
@@ -263,7 +269,7 @@ def init_db():
                 ),
                 (
                     "IOT Trainer Kit",
-                    5299.00,
+                    6000.00,
                     "fas fa-microchip",
                     "IoT Development",
                     "A comprehensive educational trainer kit for learning IoT concepts and cloud integrations. Equipped with development boards and a wide array of sensors.",
@@ -272,7 +278,7 @@ def init_db():
                 ),
                 (
                     "AUDAPS — Underwater Platform",
-                    12000.00,
+                    16000.00,
                     "fas fa-water",
                     "Marine Technology",
                     "Our premier autonomous data collection platform designed for sub-surface monitoring. Configurable with custom scientific sensor payloads.",
@@ -281,7 +287,7 @@ def init_db():
                 ),
                 (
                     "Robotic Dog Kit",
-                    1000.00,
+                    3500.00,
                     "fas fa-dog",
                     "Robotics Kit",
                     "An interactive, quadruped robot kit that teaches servo control, motor alignment, and basic walk cycle coding.",
@@ -293,6 +299,13 @@ def init_db():
                 INSERT INTO products (name, price, icon, tag, description, features, image_url)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', seed_products)
+            conn.commit()
+        else:
+            # Force update prices for existing products in SQLite
+            cursor.execute("UPDATE products SET price = 2500.00 WHERE name = 'WORK STATION (For Kids)'")
+            cursor.execute("UPDATE products SET price = 6000.00 WHERE name = 'IOT Trainer Kit'")
+            cursor.execute("UPDATE products SET price = 16000.00 WHERE name = 'AUDAPS — Underwater Platform'")
+            cursor.execute("UPDATE products SET price = 3500.00 WHERE name = 'Robotic Dog Kit'")
             conn.commit()
         conn.close()
 

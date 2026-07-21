@@ -8,7 +8,7 @@ for env_path in [".env", os.path.join(os.path.dirname(__file__), "../.env")]:
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
                     key, val = line.split("=", 1)
-                    os.environ[key.strip()] = val.strip()
+                    os.environ[key.strip()] = val.strip().strip('"').strip("'")
 import random
 import string
 import sqlite3

@@ -492,9 +492,24 @@ const openDetail = (target) => {
     if (modalBuyNowBtn) {
       modalBuyNowBtn.addEventListener('click', () => {
         const qtyToAdd = qtyInput ? parseInt(qtyInput.value) : 1;
-        addToCart(product.name, product.price, product.icon, qtyToAdd);
+        const cartItem = {
+          name: product.name,
+          price: product.price,
+          icon: product.icon,
+          qty: qtyToAdd
+        };
+        saveCart([cartItem]);
+        renderCart();
         closeDetail();
-        openCart();
+        
+        if (!currentUser) {
+          alert("Please sign in or create an account to proceed with checkout.");
+          sessionStorage.setItem('checkout_pending', 'true');
+          window.location.href = 'login.html';
+          return;
+        }
+        
+        openCheckoutModal();
       });
     }
   }

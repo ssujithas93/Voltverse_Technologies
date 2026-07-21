@@ -115,20 +115,7 @@ def send_registration_email(to_email, name):
 def verify_google_token(token):
     google_client_id = os.environ.get("GOOGLE_CLIENT_ID")
     if not google_client_id:
-        print("GOOGLE_CLIENT_ID not set. Performing mock token parsing for development.")
-        if token.startswith("mock_token_"):
-            parts = token.split("_")
-            email = parts[2] if len(parts) > 2 else "demo@gmail.com"
-            name = parts[3] if len(parts) > 3 else "Google User"
-            sub = parts[4] if len(parts) > 4 else "1234567890"
-            return {
-                "email": email,
-                "name": name,
-                "sub": sub,
-                "picture": "https://lh3.googleusercontent.com/a/default-user"
-            }
         raise ValueError("GOOGLE_CLIENT_ID is not configured in .env file.")
-        
     try:
         idinfo = id_token.verify_oauth2_token(token, google_requests.Request(), google_client_id)
         return idinfo
@@ -581,7 +568,7 @@ def auth_google():
                 users_col.insert_one({
                     'name': name,
                     'email': email,
-                    'password': None,
+                    'password': hash_password(google_id),
                     'phone': None,
                     'google_id': google_id,
                     'avatar': avatar
@@ -598,7 +585,7 @@ def auth_google():
             if not row:
                 cursor.execute(
                     "INSERT INTO users (name, email, password, phone, google_id, avatar) VALUES (?, ?, ?, ?, ?, ?)",
-                    (name, email, None, None, google_id, avatar)
+                    (name, email, hash_password(google_id), None, google_id, avatar)
                 )
                 conn.commit()
                 cursor.execute("SELECT * FROM users WHERE email = ?", (email,))

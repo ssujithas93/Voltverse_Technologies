@@ -101,7 +101,7 @@ def send_registration_email(to_email, name):
         """
         msg.attach(MIMEText(html, "html"))
         
-        server = smtplib.SMTP(smtp_server, smtp_port)
+        server = smtplib.SMTP(smtp_server, smtp_port, timeout=5)
         server.starttls()
         server.login(smtp_email, smtp_password)
         server.sendmail(smtp_email, to_email, msg.as_string())
@@ -148,7 +148,7 @@ def get_sqlite_conn():
     return conn
 
 def get_mongo_db():
-    client = MongoClient(MONGO_URI)
+    client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
     return client["Voltverse_Technologies_shop"]
 
 def init_db():

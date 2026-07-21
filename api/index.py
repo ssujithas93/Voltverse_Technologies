@@ -29,9 +29,22 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "voltverse_secret_fallback_key")
 
-cred = credentials.Certificate("firebase_key.json")
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+db = None
+try:
+    firebase_key_path = "firebase_key.json"
+    if not os.path.exists(firebase_key_path):
+        # Check parent folder if running from api subfolder
+        firebase_key_path = os.path.join(os.path.dirname(__file__), "../firebase_key.json")
+        
+    if os.path.exists(firebase_key_path):
+        cred = credentials.Certificate(firebase_key_path)
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
+        print("Firebase Admin SDK successfully initialized.")
+    else:
+        print("firebase_key.json not found. Skipping Firebase initialization.")
+except Exception as e:
+    print(f"Skipping Firebase initialization due to error: {e}")
 
 MONGO_URI = os.environ.get("MONGO_URI")
 USING_MONGODB = MONGO_URI is not None

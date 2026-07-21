@@ -250,7 +250,7 @@ const getApiUrl = (path) => {
 const fallbackProducts = [
   {
     name: "WORK STATION (For Kids)",
-    price: 1000.00,
+    price: 2500.00,
     icon: "fas fa-briefcase",
     tag: "Electronics Kit",
     description: "A fun and educational workshop organizer specifically designed for kids. It helps children learn the basics of assembly, organization, and safety when working on small electronics and robotics projects.",
@@ -259,7 +259,7 @@ const fallbackProducts = [
   },
   {
     name: "IOT Trainer Kit",
-    price: 5299.00,
+    price: 6000.00,
     icon: "fas fa-microchip",
     tag: "IoT Development",
     description: "A comprehensive educational trainer kit for learning IoT concepts and cloud integrations. Equipped with development boards and a wide array of sensors.",
@@ -268,7 +268,7 @@ const fallbackProducts = [
   },
   {
     name: "AUDAPS — Underwater Platform",
-    price: 12000.00,
+    price: 16000.00,
     icon: "fas fa-water",
     tag: "Marine Technology",
     description: "Our premier autonomous data collection platform designed for sub-surface monitoring. Configurable with custom scientific sensor payloads.",
@@ -277,7 +277,7 @@ const fallbackProducts = [
   },
   {
     name: "Robotic Dog Kit",
-    price: 1000.00,
+    price: 3500.00,
     icon: "fas fa-dog",
     tag: "Robotics Kit",
     description: "An interactive, quadruped robot kit that teaches servo control, motor alignment, and basic walk cycle coding.",

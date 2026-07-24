@@ -12,9 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-
-</head>
-<body>
 <link rel="stylesheet" href="animations.css">
 </head>
 <body>
@@ -86,8 +83,8 @@
 <!-- ================= PAGE HEADER ================= -->
 <section class="page-header achievements-page">
   <div class="page-header-content">
-    <h1>Our Achievements</h1>
-    <p class="page-header-sub">A track record of awards, milestones, and recognitions earned
+    <h1 class="split-text" data-split="words" data-stagger="65">Our Achievements</h1>
+    <p class="page-header-sub fade-up" style="transition-delay: 350ms;">A track record of awards, milestones, and recognitions earned
       while building robotics, IoT, and embedded engineering solutions.</p>
   </div>
 </section>
@@ -366,5 +363,6 @@
 </template>
 
 <script src="scripts.js"></script>
+<script src="animations.js"></script>
 </body>
 </html>

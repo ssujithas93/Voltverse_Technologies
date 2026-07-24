@@ -87,33 +87,70 @@
         // Lines are expected to be pre-marked in the HTML (see usage above)
         applyStagger(el, '.split-line');
       }
+
+      // Mark as split so CSS overrides (like gradient text-fill shifts) apply safely
+      // without causing any color flashes during reload before JS loads!
+      el.classList.add('is-split');
     });
   };
 
   const initScrollTrigger = () => {
-    const targets = document.querySelectorAll('.split-text, .fade-up');
-    if (!('IntersectionObserver' in window) || !targets.length) {
-      // Fallback: reveal everything immediately if IO isn't supported
-      targets.forEach((el) => el.classList.add('in-view'));
-      return;
-    }
+    const targets = document.querySelectorAll('.split-text, .fade-up, .fade-left, .fade-right');
+    console.log('[Voltverse Animations] Targets found:', targets.length);
+    if (!targets.length) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
+    // Direct check to reveal elements that are already inside the viewport
+    const checkVisibility = () => {
+      const viewportHeight = window.innerHeight;
+      targets.forEach((el) => {
+        if (el.classList.contains('in-view')) return;
+        const rect = el.getBoundingClientRect();
+        // If element overlaps with the viewport, reveal it immediately
+        if (rect.top < viewportHeight - 20 && rect.bottom > 0) {
+          console.log('[Voltverse Animations] Revealing element in viewport:', el);
+          el.classList.add('in-view');
         }
       });
-    }, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
+    };
 
-    targets.forEach((el) => observer.observe(el));
+    // Run visibility check immediately and after a short layout delay
+    checkVisibility();
+    setTimeout(checkVisibility, 50);
+    setTimeout(checkVisibility, 200);
+
+    // Bulletproof scroll & resize listeners to catch visibility changes
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('resize', checkVisibility, { passive: true });
+
+    // Fallback: if IntersectionObserver is supported, use it to unbind scroll events later
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.01, rootMargin: '0px' });
+
+      targets.forEach((el) => {
+        if (!el.classList.contains('in-view')) {
+          observer.observe(el);
+        }
+      });
+    }
   };
 
   // Run splitting BEFORE observing, so units exist in the DOM when IO fires
-  document.addEventListener('DOMContentLoaded', () => {
+  const runAnimations = () => {
     initSplitText();
     initScrollTrigger();
-  });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runAnimations);
+  } else {
+    runAnimations();
+  }
 
 })();

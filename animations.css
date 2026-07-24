@@ -23,6 +23,24 @@
 /* Preserve spacing for word splits */
 .split-word-space{ display:inline-block; width:0.28em; }
 
+/* FIX: Ensure split text spans inside gradient headers inherit and clip correctly.
+   Otherwise, the parent background-clip collapses and makes text 100% transparent.
+   We only apply this override once the JS has split the text (adds the 'is-split' class),
+   preventing any flash of black text during page load/reload! */
+.page-header h1.split-text.is-split,
+.hero-content h1.split-text.is-split {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+}
+.page-header h1.split-text.is-split .split-unit,
+.hero-content h1.split-text.is-split .split-unit {
+  background: var(--gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block;
+}
+
 /* Revealed state — added by JS via IntersectionObserver when scrolled into view */
 .split-text.in-view .split-unit{
   transform:translateY(0);
@@ -56,9 +74,31 @@
   transform:translateY(0);
 }
 
+/* Fade + slide from right to left (moves leftwards) */
+.fade-left{
+  opacity:0;
+  transform:translateX(35px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
+}
+.fade-left.in-view{
+  opacity:1;
+  transform:translateX(0);
+}
+
+/* Fade + slide from left to right (moves rightwards) */
+.fade-right{
+  opacity:0;
+  transform:translateX(-35px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
+}
+.fade-right.in-view{
+  opacity:1;
+  transform:translateX(0);
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce){
-  .split-unit, .split-line, .fade-up{
+  .split-unit, .split-line, .fade-up, .fade-left, .fade-right{
     transition:none !important;
     transform:none !important;
     opacity:1 !important;

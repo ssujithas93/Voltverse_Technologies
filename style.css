@@ -320,28 +320,7 @@ header.scrolled{
   position:relative; z-index:5;
 }
 
-.highlight-card{
-  display:block;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:var(--radius-md);
-  padding:32px 26px;
-  box-shadow:0 16px 36px -24px rgba(22,35,47,0.15);
-  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
-}
-.highlight-card:hover{ transform:translateY(-8px); box-shadow:0 24px 44px -20px rgba(124,58,237,0.25); border-color:rgba(124,58,237,0.35); }
-
-.highlight-card i{
-  font-size:26px; color:var(--blue);
-  width:52px; height:52px; border-radius:14px;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--blue-pale);
-  margin-bottom:18px;
-  transition:transform .4s var(--ease);
-}
-.highlight-card:hover i{ transform:scale(1.1) rotate(-4deg); }
-.highlight-card h3{ font-size:18px; margin-bottom:8px; }
-.highlight-card p{ color:var(--steel); font-size:14.5px; }
+/* highlight-card styling and hover spotlight logic are placed in the animated cards section below */
 
 /* =========================================================
    STATS
@@ -548,6 +527,59 @@ header.scrolled{
 .add-to-cart .fa-check{ display:none; }
 .add-to-cart.added .fa-cart-plus{ display:none; }
 .add-to-cart.added .fa-check{ display:inline-block; }
+
+.highlight-card{
+  display:block;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  padding:32px 26px;
+  box-shadow:0 16px 36px -24px rgba(22,35,47,0.15);
+  position:relative;
+  overflow:hidden;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
+}
+
+/* Cursor-tracking purple/pink radial spotlight glow */
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(
+    200px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(124, 58, 237, 0.06) 0%,
+    rgba(236, 72, 153, 0.03) 50%,
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.highlight-card:hover::before {
+  opacity: 1;
+}
+
+.highlight-card:hover{
+  transform:translateY(-8px) scale(1.01);
+  box-shadow:0 24px 44px -20px rgba(124,58,237,0.25);
+  border-color:rgba(124,58,237,0.35);
+}
+
+.highlight-card i{
+  font-size:26px; color:var(--blue);
+  width:52px; height:52px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--blue-pale);
+  margin-bottom:18px;
+  transition:transform .4s var(--ease);
+  position:relative;
+  z-index: 1;
+}
+.highlight-card:hover i{ transform:scale(1.1) rotate(-4deg); }
+.highlight-card h3{ font-size:18px; margin-bottom:8px; position:relative; z-index: 1; }
+.highlight-card p{ color:var(--steel); font-size:14.5px; position:relative; z-index: 1; }
 
 /* =========================================================
    PRODUCT PAGE / AUDAPS
@@ -1200,8 +1232,18 @@ h3{ font-size:18px; }
 
 .project-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  grid-template-columns:repeat(3,1fr);
   gap:28px;
+}
+@media (max-width:1024px){
+  .project-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+@media (max-width:640px){
+  .project-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 .project-card{
@@ -1237,13 +1279,42 @@ h3{ font-size:18px; }
 .project-body{ padding:26px 26px 28px; display:flex; flex-direction:column; gap:10px; flex:1; }
 .project-body h3{ font-size:19px; }
 .project-body p{ color:var(--steel); font-size:14.5px; }
-.project-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
-.project-tags li{
-  font-family:var(--font-mono); font-size:11.5px;
-  padding:6px 12px; border-radius:100px;
-  background:var(--blue-pale);
-  border:1px solid rgba(124,58,237,0.25);
-  color:var(--blue-dark);
+/* Premium Oval Gradient Tags (Cards & Modals) */
+.project-tags, .detail-tags, .badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  list-style: none;
+  padding-left: 0;
+}
+.project-tags li, .detail-tags li, .badge {
+  font-family: 'Outfit', 'Inter', var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(236, 72, 153, 0.05) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  color: #7c3aed; /* Elegant purple text */
+  border-radius: 100px; /* Fully rounded oval */
+  box-shadow: 0 2px 8px -2px rgba(124, 58, 237, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+  cursor: pointer;
+}
+.project-tags li:hover, .detail-tags li:hover, .badge:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 8px 16px -4px rgba(124, 58, 237, 0.25);
+  transform: translateY(-2px);
+}
+.project-tags li:active, .detail-tags li:active, .badge:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px -2px rgba(124, 58, 237, 0.15);
 }
 .project-more{
   margin-top:10px;
@@ -1312,14 +1383,7 @@ h3{ font-size:18px; }
   content:''; position:absolute; left:0; top:8px;
   width:8px; height:2px; background:var(--blue);
 }
-.detail-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
-.detail-tags li{
-  font-family:var(--font-mono); font-size:11.5px;
-  padding:6px 12px; border-radius:100px;
-  background:var(--blue-pale);
-  border:1px solid rgba(124,58,237,0.25);
-  color:var(--blue-dark);
-}
+/* Detail tags and custom badges styles are now defined globally under combined tag selectors in lines 1250-1280. */
 
 @media (max-width:640px){
   .detail-modal{ padding:28px; max-height:90vh; }
@@ -1490,7 +1554,7 @@ h3{ font-size:18px; }
 .detail-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* 2 Seconds Image Loop Slide Animation */
@@ -1579,7 +1643,7 @@ h3{ font-size:18px; }
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
   z-index: 1;
@@ -2621,4 +2685,17 @@ h3{ font-size:18px; }
   font-size: 13px;
   color: rgba(238, 244, 242, 0.7);
   line-height: 1.4;
+}
+
+/* ================= WEBGL FLUID SIMULATION CANVAS ================= */
+#splash-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0.9;
+  mix-blend-mode: multiply; /* Multiplies canvas colors over white background, making trails fully visible! */
 }

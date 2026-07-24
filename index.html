@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animations.css">
 </head>
 <body>
 
@@ -82,15 +83,15 @@
   <div class="hero-overlay"></div>
 
   <div class="hero-content">
-    <p class="eyebrow"><span class="dot"></span>Robotics &middot; IoT &middot; Embedded Engineering</p>
-    <h1>Empowering Innovation Through Robotics, IoT &amp; Intelligent Engineering</h1>
-    <p class="hero-desc">
+    <p class="eyebrow fade-up" style="transition-delay: 100ms;"><span class="dot"></span>Robotics &middot; IoT &middot; Embedded Engineering</p>
+    <h1 class="split-text" data-split="words" data-stagger="50">Empowering Innovation Through Robotics, IoT &amp; Intelligent Engineering</h1>
+    <p class="hero-desc fade-up" style="transition-delay: 600ms;">
       At Voltverse_Technologies, we combine education, research, and engineering to build
       innovative solutions that solve real-world challenges. From robotics education and
       IoT development to cutting-edge underwater monitoring systems, we empower the next
       generation of innovators.
     </p>
-    <div class="hero-buttons">
+    <div class="hero-buttons fade-up" style="transition-delay: 800ms;">
       <a href="shop.html" class="btn btn-primary">Shop Now</a>
       <a href="contact.html" class="btn btn-ghost">Contact Us</a>
     </div>

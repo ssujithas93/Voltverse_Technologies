@@ -438,6 +438,7 @@ const openDetail = (target) => {
     const tpl = document.getElementById(target);
     if (!tpl) return;
     detailModalBody.appendChild(tpl.content.cloneNode(true));
+    initCardSlideshows(detailModalBody);
   } else {
     // Dynamic product object from backend
     const product = target;
@@ -558,8 +559,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ================= CARD SLIDESHOW (Card 4) =================
-const initCardSlideshows = () => {
-  const slideshows = document.querySelectorAll('.card-slideshow');
+const initCardSlideshows = (container = document) => {
+  const slideshows = container.querySelectorAll('.card-slideshow');
   slideshows.forEach(slideshow => {
     const slides = slideshow.querySelectorAll('.slide');
     const prevBtn = slideshow.querySelector('.prev');
@@ -1228,4 +1229,172 @@ const handleCheckoutSubmit = async (e) => {
 // Initialize session and auth events
 checkUserSession();
 initGoogleAuth();
+
+// ================= WEBGL FLUID SIMULATION CURSOR EFFECT =================
+const initFluidCursor = () => {
+  // Only run WebGL fluid tracking on the Home page (root pathname or index.html)
+  const path = window.location.pathname;
+  const isHome = path === '/' || path.endsWith('/index.html') || path === '' || path.endsWith('/');
+  if (!isHome) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'splash-cursor';
+  document.body.appendChild(canvas);
+
+  const script = document.createElement('script');
+  script.onload = () => {
+    if (typeof window.WebGLFluid !== 'function') return;
+
+    // Block the library's mouseup/touchend listeners on window to prevent the pointer from going "up" (down = false).
+    // This keeps the internal simulation pointer permanently active (down = true).
+    window.addEventListener('mouseup', (e) => e.stopImmediatePropagation(), false);
+    window.addEventListener('touchend', (e) => e.stopImmediatePropagation(), false);
+
+    // We pass an object reference for SPLAT_COLOR, so we can mutate it dynamically
+    const fluidColor = { r: 0.49, g: 0.23, b: 0.93 }; // Starts at #7c3aed
+
+    window.WebGLFluid(canvas, {
+      TRIGGER: 'hover',
+      SIM_RESOLUTION: 128,
+      DYE_RESOLUTION: 512,
+      CAPTURE_RESOLUTION: 256,
+      DENSITY_DISSIPATION: 4.0, // Extremely fast dissipation so the trail is tiny and short
+      VELOCITY_DISSIPATION: 0.8, // Instant velocity decay to prevent any lingering swirls
+      PRESSURE: 0.8,
+      PRESSURE_ITERATIONS: 20,
+      CURL: 4, // Virtually straight trail, no turbulent curls
+      SPLAT_RADIUS: 0.035, // Microscopic line thickness for extreme subtlety
+      SPLAT_FORCE: 7000,
+      SHADING: false, // Flat shading gives a clean "watercolor/flowing silk" look on white
+      COLORFUL: false,
+      SPLAT_COLOR: fluidColor,
+      TRANSPARENT: true,
+      BLOOM: false, // Bloom/glow is disabled since multiply blending over white doesn't benefit from glow
+      SUNRAYS: false
+    });
+
+    // Programmatically initialize the pointer object in "down = true" state on the canvas.
+    // Because mouseup/touchend are blocked, the library will keep the pointer permanently active,
+    // drawing hover trails immediately on mousemove without requiring clicks!
+    setTimeout(() => {
+      const rect = canvas.getBoundingClientRect();
+      const x = rect.width / 2;
+      const y = rect.height / 2;
+      const downEvent = new MouseEvent('mousedown', {
+        clientX: x,
+        clientY: y,
+        bubbles: false
+      });
+      Object.defineProperty(downEvent, 'offsetX', { value: x });
+      Object.defineProperty(downEvent, 'offsetY', { value: y });
+      canvas.dispatchEvent(downEvent);
+    }, 200);
+
+    // Get the header element and calculate its height dynamically to block trails near the navigation bar
+    const getHeaderHeight = () => {
+      const header = document.getElementById('site-header');
+      return header ? header.getBoundingClientRect().height : 90;
+    };
+
+    // Since the canvas has pointer-events: none in CSS (allowing clicks to pass through to nav links),
+    // we listen to mousemove on window and proxy it programmatically to the canvas event listeners.
+    window.addEventListener('mousemove', (e) => {
+      // Ignore mouse movement if it is inside or near the header/nav bar (with a 10px buffer)
+      if (e.clientY < getHeaderHeight() + 10) return;
+
+      const canvasEvent = new MouseEvent('mousemove', {
+        bubbles: false,
+        cancelable: true,
+        clientX: e.clientX,
+        clientY: e.clientY
+      });
+      Object.defineProperty(canvasEvent, 'offsetX', { value: e.clientX });
+      Object.defineProperty(canvasEvent, 'offsetY', { value: e.clientY });
+      canvas.dispatchEvent(canvasEvent);
+    }, { passive: true });
+
+    // Touch equivalent proxy for mobile touchmove tracking
+    window.addEventListener('touchmove', (e) => {
+      if (e.targetTouches.length === 0) return;
+      const touch = e.targetTouches[0];
+
+      // Ignore touch movement if it is inside or near the header/nav bar
+      if (touch.clientY < getHeaderHeight() + 10) return;
+
+      const canvasEvent = new MouseEvent('mousemove', {
+        bubbles: false,
+        cancelable: true,
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      Object.defineProperty(canvasEvent, 'offsetX', { value: touch.clientX });
+      Object.defineProperty(canvasEvent, 'offsetY', { value: touch.clientY });
+      canvas.dispatchEvent(canvasEvent);
+    }, { passive: true });
+
+    // Helper: converts HSL to RGB (values normalized between 0 and 1)
+    const hslToRgb = (h, s, l) => {
+      let r, g, b;
+      if (s === 0) {
+        r = g = b = l;
+      } else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      return { r, g, b };
+    };
+
+    // Cycle hue dynamically between purple (265deg) and pink (325deg)
+    let hue = 275;
+    let dir = 1;
+    setInterval(() => {
+      hue += dir * 0.8;
+      if (hue >= 325) dir = -1;
+      if (hue <= 265) dir = 1;
+
+      // Darker, highly saturated colors look much richer under mix-blend-mode: multiply
+      const rgb = hslToRgb(hue / 360, 0.95, 0.48);
+      fluidColor.r = rgb.r;
+      fluidColor.g = rgb.g;
+      fluidColor.b = rgb.b;
+    }, 40);
+  };
+  script.src = 'webgl-fluid.js';
+  document.head.appendChild(script);
+};
+
+// Cursor-tracking radial glow for highlight cards (spotlight overlay)
+const initCardGlows = () => {
+  document.querySelectorAll('.highlight-card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    }, { passive: true });
+  });
+};
+
+// Initialize after page load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initFluidCursor();
+    initCardGlows();
+  });
+} else {
+  initFluidCursor();
+  initCardGlows();
+}
 initAuthPages();

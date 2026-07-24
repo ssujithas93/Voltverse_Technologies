@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animations.css">
 </head>
 <body>
 
@@ -79,8 +80,8 @@
 <!-- ================= PAGE HEADER ================= -->
 <section class="page-header page-header-dark">
   <div class="container page-header-content">
-    <h1>Sensors, Boards &amp; Kits</h1>
-    <p class="page-header-sub">Everything you need to build, learn and prototype — shipped from Voltverse_Technologies.</p>
+    <h1 class="split-text" data-split="words" data-stagger="70">Sensors, Boards &amp; Kits</h1>
+    <p class="page-header-sub fade-up" style="transition-delay: 350ms;">Everything you need to build, learn and prototype — shipped from Voltverse_Technologies.</p>
   </div>
 </section>
 
@@ -196,5 +197,6 @@
 <!-- Product detail templates are now generated dynamically by scripts.js from the backend API -->
 
 <script src="scripts.js"></script>
+<script src="animations.js"></script>
 </body>
 </html>

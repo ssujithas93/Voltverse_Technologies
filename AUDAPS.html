@@ -10,8 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-
 <link rel="stylesheet" href="audaps.css">
+<link rel="stylesheet" href="animations.css">
 </head>
 <body>
 
@@ -66,12 +66,12 @@
 
   <div class="audaps-hero-top">
     <div>
-      <div class="audaps-eyebrow"><span class="dot"></span> Live deployment · underwater telemetry</div>
-      <h1 class="audaps-title">AUD<em>A</em>PS</h1>
+      <div class="audaps-eyebrow fade-up" style="transition-delay: 100ms;"><span class="dot"></span> Live deployment · underwater telemetry</div>
+      <h1 class="audaps-title split-text" data-split="words" data-stagger="120">AUD<em>A</em>PS</h1>
     </div>
   </div>
 
-  <p class="audaps-desc-line">
+  <p class="audaps-desc-line fade-up" style="transition-delay: 400ms;">
     AUDAPS is an autonomous underwater vehicle that acquires and profiles live sensor data as it moves through the water column, profiling physical and ecological parameters.
   </p>
 </section>

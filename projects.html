@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animations.css">
 </head>
 <body>
 
@@ -81,8 +82,8 @@
 <!-- ================= PAGE HEADER ================= -->
 <section class="page-header projects-page">
   <div class="page-header-content">
-    <h1>Our Projects</h1>
-    <p class="page-header-sub">A closer look at the engineering work behind Voltverse_Technologies — from underwater monitoring systems to campus-wide IoT networks.</p>
+    <h1 class="split-text" data-split="words" data-stagger="70">Our Projects</h1>
+    <p class="page-header-sub fade-up" style="transition-delay: 350ms;">A closer look at the engineering work behind Voltverse_Technologies — from underwater monitoring systems to campus-wide IoT networks.</p>
   </div>
 </section>
 
@@ -94,51 +95,25 @@
       <!-- Project 1 -->
       <div class="project-card reveal" data-detail="proj-1-detail" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="project-media">
-          <i class="fas fa-water"></i>
-          <span class="project-status">In Development</span>
+          <div class="card-slideshow">
+            <button class="prev" aria-label="Previous Image">&#10094;</button>
+            <img src="images/img18.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 1" class="slide active">
+            <img src="images/AUDAPS 3.png" alt="Exhibited at IMTEX FORMING 2026 Image 2" class="slide">
+            <img src="images/img17.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 3" class="slide">
+            <img src="images/img19.jpeg" alt="Exhibited at IMTEX FORMING 2026 Image 4" class="slide">
+            <button class="next" aria-label="Next Image">&#10095;</button>
+          </div>
         </div>
         <div class="project-body">
           <h3>AUDAPS — Autonomous Underwater Data Acquisition System</h3>
-          <p>A modular underwater monitoring platform for collecting environmental data autonomously.</p>
+          <p>AUDAPS is Voltverse_Technologies' flagship engineering project: a modular, low-cost
+     underwater platform that autonomously</p>
           <ul class="project-tags">
             <li>Robotics</li><li>IoT</li><li>Environmental</li>
           </ul>
           <span class="project-more">View details <i class="fas fa-arrow-right"></i></span>
         </div>
       </div>
-
-      <!-- Project 2 -->
-      <div class="project-card reveal" data-detail="proj-2-detail" tabindex="0" role="button" aria-haspopup="dialog">
-        <div class="project-media">
-          <i class="fas fa-network-wired"></i>
-          <span class="project-status">Completed</span>
-        </div>
-        <div class="project-body">
-          <h3>Smart Campus IoT Network</h3>
-          <p>A connected sensor network monitoring occupancy, air quality, and energy use across a campus.</p>
-          <ul class="project-tags">
-            <li>IoT</li><li>Automation</li><li>Sensors</li>
-          </ul>
-          <span class="project-more">View details <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="project-card reveal" data-detail="proj-3-detail" tabindex="0" role="button" aria-haspopup="dialog">
-        <div class="project-media">
-          <i class="fas fa-robot"></i>
-          <span class="project-status">Completed</span>
-        </div>
-        <div class="project-body">
-          <h3>Educational Robotic Arm Kit</h3>
-          <p>A low-cost, programmable robotic arm kit designed for classroom robotics education.</p>
-          <ul class="project-tags">
-            <li>Robotics</li><li>Education</li><li>Embedded</li>
-          </ul>
-          <span class="project-more">View details <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -213,11 +188,17 @@
 </div>
 
 <!-- ================= DETAIL TEMPLATES (edit content here) ================= -->
-
 <template id="proj-1-detail">
-  <div class="detail-media"><img src="images/AUDAPS 3.png" alt="AUDAPS Underwater Platform"></div>
-  <div class="detail-icon"><i class="fas fa-water"></i></div>
-  <span class="detail-tag">In Development</span>
+  <div class="detail-media">
+    <div class="card-slideshow">
+      <button class="prev" aria-label="Previous Image">&#10094;</button>
+      <img src="images/AUDAPS 3.png" alt="AUDAPS Underwater Platform" class="slide active">
+      <img src="images/img17.jpeg" alt="AUDAPS Underwater Platform" class="slide">
+      <img src="images/img18.jpeg" alt="AUDAPS Underwater Platform" class="slide">
+      <img src="images/img19.jpeg" alt="AUDAPS Underwater Platform" class="slide">
+      <button class="next" aria-label="Next Image">&#10095;</button>
+    </div>
+  </div>
   <h2>AUDAPS — Autonomous Underwater Data Acquisition System</h2>
   <p>AUDAPS is Voltverse_Technologies' flagship engineering project: a modular, low-cost
      underwater platform that autonomously collects environmental data such as temperature,
@@ -234,57 +215,14 @@
      environmental agencies, and educational institutions that can't afford commercial-grade
      underwater sensor platforms.</p>
   <h4>Related</h4>
-  <ul class="detail-tags">
-    <li>Robotics</li><li>IoT</li><li>Environmental Monitoring</li>
-  </ul>
+  <div class="badges">
+    <span class="badge">Robotics</span>
+    <span class="badge">IoT</span>
+    <span class="badge">Embedded Systems</span>
+    <span class="badge">Automation</span>
+  </div>
 </template>
-
-<template id="proj-2-detail">
-  <div class="detail-media"><img src="images/IOT Trainer Kit.png" alt="Smart Campus IoT Network"></div>
-  <div class="detail-icon"><i class="fas fa-network-wired"></i></div>
-  <span class="detail-tag">Completed &middot; 2023</span>
-  <h2>Smart Campus IoT Network</h2>
-  <p>A distributed sensor network deployed across a campus environment to monitor room
-     occupancy, air quality, and energy consumption in real time, feeding into a centralized
-     dashboard for facilities management.</p>
-  <h4>Technology stack</h4>
-  <ul class="detail-list">
-    <li>Low-power Wi-Fi sensor nodes with CO2 and occupancy sensing</li>
-    <li>Central gateway aggregating data over MQTT</li>
-    <li>Web dashboard for live monitoring and historical trends</li>
-  </ul>
-  <h4>Impact</h4>
-  <p>Enabled the campus facilities team to identify underused spaces and optimize HVAC
-     scheduling, reducing unnecessary energy usage during low-occupancy periods.</p>
-  <h4>Related</h4>
-  <ul class="detail-tags">
-    <li>IoT</li><li>Automation</li><li>Sensors</li>
-  </ul>
-</template>
-
-<template id="proj-3-detail">
-  <div class="detail-media"><img src="images/Robotic dog.png" alt="Robotic Dog Kit"></div>
-  <div class="detail-icon"><i class="fas fa-robot"></i></div>
-  <span class="detail-tag">Completed &middot; 2022</span>
-  <h2>Educational Robotic Arm Kit</h2>
-  <p>A low-cost, programmable robotic arm designed specifically for classroom use, allowing
-     students to learn the fundamentals of servo control, inverse kinematics, and basic
-     automation through hands-on assembly and coding exercises.</p>
-  <h4>Technology stack</h4>
-  <ul class="detail-list">
-    <li>4-axis servo-driven arm with 3D-printed housing</li>
-    <li>Beginner-friendly block-based and Python programming interface</li>
-    <li>Companion curriculum with guided project milestones</li>
-  </ul>
-  <h4>Impact</h4>
-  <p>Deployed as part of the robotics education program at St. Antony's School, giving
-     students a tangible, hands-on introduction to robotics concepts beyond simulations.</p>
-  <h4>Related</h4>
-  <ul class="detail-tags">
-    <li>Robotics</li><li>Education</li><li>Embedded Systems</li>
-  </ul>
-</template>
-
 <script src="scripts.js"></script>
+<script src="animations.js"></script>
 </body>
 </html>
